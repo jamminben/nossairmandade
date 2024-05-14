@@ -26,7 +26,7 @@
             <a href="{{ url('admin/edit-hinario') }}">Hinario</a>
         </li>
         <li>
-            <a href="{{ url('admin/edit-person') }}">Person</a>
+            <a href="{{ url('admin/edit-person') }}">Person1</a>
         </li>
         <li>
             <a href="{{ url('admin/edit-book') }}">Books</a>
