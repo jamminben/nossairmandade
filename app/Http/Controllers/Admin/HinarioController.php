@@ -144,8 +144,7 @@ class HinarioController extends Controller
                 'sections' => $hinario->getSections(),
                 'displaySections' => $displaySections,
                 'persons' => $persons,
-                'languages' => $this->loadLanguages(),
-                'receivedById' => $hinario->receivedBy->id
+                'languages' => $this->loadLanguages()
             ]);
     }
 
