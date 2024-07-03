@@ -24,11 +24,11 @@ class PersonController extends Controller
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    //const IMAGE_FILE_ROOT = '/home/dh_nossa/nossairmandade.com/public';
-    //const IMAGE_URL_ROOT = '/images/persons/';
-
-    const IMAGE_FILE_ROOT = '/Users/benjamintobias/Documents/Ben\'s Laptop/nossairmandade/public';
+    const IMAGE_FILE_ROOT = '/home/dh_nossa/nossairmandade.com/public';
     const IMAGE_URL_ROOT = '/images/persons/';
+
+    //const IMAGE_FILE_ROOT = '/Users/benjamintobias/Documents/Ben\'s Laptop/nossairmandade/public';
+    //const IMAGE_URL_ROOT = '/images/persons/';
 
     private $personData;
 

@@ -135,8 +135,8 @@ class MediaImportController extends Controller
 
     private function addMediaToHinario($hinarioId, $sourceId)
     {
-        // $destinationRoot = '/home/dh_nossa/nossairmandade.com/public/media/hinarios/';
-        $destinationRoot = str_replace('/', '\\', public_path('media/hinarios/'));
+        $destinationRoot = '/home/dh_nossa/nossairmandade.com/public/media/hinarios/';
+        //$destinationRoot = str_replace('/', '\\', public_path('media/hinarios/'));
 
         $uploadFile = $_FILES['new_media']['tmp_name'];
         $oldName = $_FILES['new_media']['name'];
