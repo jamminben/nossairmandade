@@ -18,7 +18,7 @@
                         <!-- <a href="{{ url('language/JA') }}"><img src="{{ url('images/flags/japan.png') }}" alt="{{ __('page_top.language.alt_ja') }}" width="24" height="24"></a> -->
                     </div>
                     <span class="greylinks">
-						<a href="{{ url('search') }}">advanced search</a>
+						<a href="{{ url('search') }}">{{ __('page_top.advanced_search') }}</a>
 					</span>
                     <div class="widget widget_search">
                         <span>

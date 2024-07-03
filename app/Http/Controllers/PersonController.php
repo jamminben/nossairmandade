@@ -17,6 +17,6 @@ class PersonController extends Controller
     {
         $person = Person::where('id', $personId)->first();
 
-        return view('person', [ 'person' => $person ]);
+        return view('persons.person', [ 'person' => $person ]);
     }
 }

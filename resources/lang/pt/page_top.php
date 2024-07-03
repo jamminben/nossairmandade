@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'advanced_search' => 'pesquisa avançada',
+
     'search' => [
         'label' => 'Procurar',
         'placeholder' => 'Pesquise os hinos',

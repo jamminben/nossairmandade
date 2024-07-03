@@ -52,6 +52,9 @@
             {{ __('hymns.recording_source') }}:
             <a href="{{ $mediaFile->source->url }}" target="_blank">
                 {{ __($mediaFile->source->getDescription()) }}
+                @if ($isOfficial)
+                    - <strong>{{ __('hymns.is_official') }}</strong>
+                @endif
             </a>
         </div>
     </div>

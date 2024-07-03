@@ -5,10 +5,13 @@ use App\Enums\Languages;
 use App\Http\Controllers\Controller;
 use App\Models\Feedback;
 use App\Models\Hymn;
+use App\Models\HymnPattern;
 use App\Models\Person;
 use App\Models\Image;
 use App\Models\PersonImage;
 use App\Models\PersonTranslation;
+use App\Services\GlobalFunctions;
+use App\Services\PatternService;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -19,29 +22,28 @@ class PatternController extends Controller
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function view($id = null)
+    private $patternService;
+
+    public function __construct(PatternService $patternService)
     {
-        if (!empty($id)) {
-            $hymn = Hymn::where('pattern_id', $id)->first();
-        } else {
-            $hymn = null;
+        $this->patternService = $patternService;
+    }
+
+    public function samplePattern($patternId = null)
+    {
+        if (is_null($patternId)) {
+            $patternId = 0;
         }
 
-        $patternIds = DB::table('hymns')->select('pattern_id')->distinct()->orderBy('pattern_id')->whereNotNull('pattern_id')->get();
+        $pattern = HymnPattern::where('pattern_id', $patternId)->first();
 
-        $patterns = [];
-        $hymns = [];
-        foreach ($patternIds as $patternId) {
-            if (view()->exists('hymns.patterns.' . $patternId->pattern_id)) {
-                $patterns[$patternId->pattern_id] = 1;
-            } else {
-                $patterns[$patternId->pattern_id] = 0;
-            }
+        return view('admin.hymns.sample_pattern', [ 'pattern' => $pattern, 'language' => GlobalFunctions::getCurrentLanguage() ]);
+    }
 
-            $hymnRow = Hymn::where('pattern_id', $patternId->pattern_id)->first();
-            $hymns[] = $hymnRow;
-        }
+    public function allPatterns()
+    {
+        $patterns = $this->patternService->getPatternsForDisplay();
 
-        return view('admin.view_pattern', [ 'hymn' => $hymn, 'patterns' => $patterns, 'hymns' => $hymns ]);
+        return view('admin.hymns.all_patterns', [ 'patterns' => $patterns ]);
     }
 }

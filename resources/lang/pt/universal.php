@@ -31,5 +31,15 @@ return [
         'create_header' => 'Criar um hinário novo',
     ],
 
+    'add_media' => [
+        'add_media' => 'Adicionar mídia',
+        'choose_file' => 'Escolher arquivo',
+        'select_source' => 'Selecione a fonte',
+        'new_source_name' => 'Nome da fonte',
+        'new_source_url' => 'URL da fonte',
+        'add_new_source_label' => 'A fonte de mídia:',
+        'add_media_tooltip_text' => 'Se você adicionar um arquivo com extensão .mp3 ou .mpeg, ele poderá ser reproduzido no reprodutor de música. Qualquer outro tipo de arquivo aparecerá como um arquivo, mas não poderá ser reproduzido.',
+    ],
+
     'close' => 'Fechar'
 ];

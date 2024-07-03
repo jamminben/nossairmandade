@@ -11,6 +11,7 @@
     @include('layouts.partials.head')
     @livewireStyles
     @yield('css')
+    @yield('js')
 
 </head>
 

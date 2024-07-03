@@ -2,14 +2,24 @@
 namespace App\Services;
 
 use App\Models\Hinario;
+use App\Models\HinarioSection;
+use App\Models\HinarioSectionTranslation;
 use App\Models\HinarioTranslation;
 
 class HinarioService
 {
+    public function createHinario()
+    {
+        $hinario = new Hinario();
+
+
+
+    }
+
     public function preloadHinario($hinarioId)
     {
         $hinarioModel = Hinario::where('id', $hinarioId)
-            ->with('translations', 'sections', 'hymns', 'hymnHinarios', 'hymnHinarios.hinario', 'receivedBy', 'hymns.mediaFiles', 'hymns.translations', 'hymns.hymnHinarios')
+            ->with('translations', 'sections', 'hymns', 'hymnHinarios', 'hymnHinarios.hinario', 'receivedBy', 'mediaFiles', 'hymns.mediaFiles', 'hymns.translations', 'hymns.hymnHinarios')
             ->first();
 
         $recordingSourceModels = $hinarioModel->getRecordingSources();
@@ -88,17 +98,41 @@ class HinarioService
             'type_id' => $hinarioModel->type_id,
             'id' => $hinarioModel->id,
             'slug' => $hinarioModel->getSlug(),
-            'displaySections' => count($hinarioModel->getSections()) > 1,
             'recordingSources' => $recordingSourceArray,
             'receivedBy' => $receivedByArray,
             'hymnHinarios' => $hymnHinarioArray,
             'hymns' => $hinarioHymnsArray,
             'otherMedia' => $otherMediaArray,
+            'displaySections' => $hinarioModel->displaySections()
         ];
 
         $hinarioJson = json_encode($hinarioArray);
 
         $hinarioModel->preloaded_json = $hinarioJson;
         $hinarioModel->save();
+    }
+
+    public function addSection($hinario, $sectionName, $secondaryLanguageId, $secondaryName)
+    {
+        $section = new HinarioSection();
+        $section->hinario_id = $hinario->id;
+        $section->section_number = count($hinario->getSections());
+        $section->save();
+
+        $sectionTranslation = new HinarioSectionTranslation();
+        $sectionTranslation->hinario_section_id = $section->id;
+        $sectionTranslation->language->id = $hinario->original_language_id;
+        $sectionTranslation->name = $sectionName;
+        $sectionTranslation->save();
+
+        $sectionSecondaryTranslation = new HinarioSectionTranslation();
+        $sectionSecondaryTranslation->hinario_section_id = $section->id;
+        $sectionSecondaryTranslation->language->id = $secondaryLanguageId;
+        $sectionSecondaryTranslation->name = $secondaryName;
+        $sectionSecondaryTranslation->save();
+
+        $hymnHinario = $hinario->hymnHinarios;
+
+        $newHymnHinario = $this->hymnService->makeNewHymn($hinario, $hymnHinario);
     }
 }

@@ -1,6 +1,7 @@
 <?php
 namespace App\Models;
 
+use App\Constants\Constants;
 use App\Enums\HinarioTypes;
 use App\Enums\MediaTypes;
 use App\Services\GlobalFunctions;
@@ -35,13 +36,14 @@ class Hinario extends ModelWithTranslations
 
     public function getPreviousHymn($hymnId)
     {
-        $currentHymnHinario = HymnHinario::where('hinario_id', $this->id)->where('hymn_id', $hymnId)->first();
-        $previousHymnHinario = HymnHinario::where('hinario_id', $this->id)
-            ->where('list_order', '<', $currentHymnHinario->list_order)
-            ->orderBy('list_order', 'DESC')
-            ->first();
-        if (!empty($previousHymnHinario)) {
-            return $previousHymnHinario->hymn;
+        $hymnHinarios = HymnHinario::where('hinario_id', $this->id)
+            ->orderBy('section_number', 'ASC')
+            ->orderBy('list_order', 'ASC')
+            ->get();
+        for ($x = 0; $x < count($hymnHinarios); $x++) {
+            if ($hymnHinarios[$x]->hymn_id == $hymnId && $x > 0) {
+                return $hymnHinarios[$x-1]->hymn;
+            }
         }
 
         return null;
@@ -49,13 +51,14 @@ class Hinario extends ModelWithTranslations
 
     public function getNextHymn($hymnId)
     {
-        $currentHymnHinario = HymnHinario::where('hinario_id', $this->id)->where('hymn_id', $hymnId)->first();
-        $nextHymnHinario = HymnHinario::where('hinario_id', $this->id)
-            ->where('list_order', '>', $currentHymnHinario->list_order)
+        $hymnHinarios = HymnHinario::where('hinario_id', $this->id)
+            ->orderBy('section_number', 'ASC')
             ->orderBy('list_order', 'ASC')
-            ->first();
-        if (!empty($nextHymnHinario)) {
-            return $nextHymnHinario->hymn;
+            ->get();
+        for ($x = 0; $x < count($hymnHinarios); $x++) {
+            if ($hymnHinarios[$x]->hymn_id == $hymnId && $x < count($hymnHinarios) - 1) {
+                return $hymnHinarios[$x+1]->hymn;
+            }
         }
 
         return null;
@@ -157,6 +160,35 @@ class Hinario extends ModelWithTranslations
         }
     }
 
+    public function getPrimaryTranslation()
+    {
+        foreach ($this->translations as $translation) {
+            if ($translation->language_id == $this->original_language_id) {
+                return $translation;
+            }
+        }
+    }
+
+    public function getSecondaryTranslations()
+    {
+        $translations = [];
+        foreach ($this->translations as $translation) {
+            if ($translation->language_id != $this->original_language_id) {
+                if ($translation->language_id == GlobalFunctions::getCurrentLanguage()) {
+                    array_unshift($translations, $translation);
+                } else {
+                    array_push($translations, $translation);
+                }
+            }
+        }
+        return $translations;
+    }
+
+    public function displaySections()
+    {
+        return count($this->sections) > 1;
+    }
+
 
 
     /**************************
@@ -218,8 +250,19 @@ class Hinario extends ModelWithTranslations
 
     public function receivedBy()
     {
-        return $this->hasOne(Person::class, 'id', 'link_id')
-            ->with('translations', 'images', 'hinarios', 'personImages');
+        if ($this->type_id == Constants::HINARIO_TYPE_INDIVIDUAL) {
+            return $this->hasOne(Person::class, 'id', 'link_id')
+                ->with('translations', 'images', 'hinarios', 'personImages');
+        } elseif ($this->type_id = Constants::HINARIO_TYPE_LOCAL) {
+            return $this->hasOneThrough(
+                Person::class,
+                PersonLocalHinario::class,
+                'hinario_id',
+                'id',
+                'id',
+                'person_id')
+                ->with('translations', 'images', 'hinarios', 'personImages');
+        }
     }
 
     public function personLocalHinario()

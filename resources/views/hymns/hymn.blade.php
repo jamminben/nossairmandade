@@ -27,7 +27,7 @@
             </ul>
         </div>
     @endif
-    @if (!empty($hymn->received_by))
+
         <ol class="breadcrumb display_table_cell_md">
             @if (!empty($hymn->receivedBy))
             <li>
@@ -36,13 +36,25 @@
             @endif
             @if (!empty($hymn->receivedHinario))
             <li>
-                <a href="{{ url($hymn->receivedHinario->getSlug()) }}">{{ $hymn->receivedHinario->getName($hymn->receivedHinario->original_language_id) }}</a> #{{ $hymn->received_order }}
+                <a href="{{ url($hymn->receivedHinario->getSlug()) }}">{{ $hymn->receivedHinario->getName($hymn->receivedHinario->original_language_id) }}</a> #{{ $hymn->getReceivedOrder($hymn->receivedHinario->id) }}
             </li>
             @endif
             @if (!empty($hymn->offeredTo))
                 <li>{{ __('hymns.header.offered_to') }} <a href="{{ url($hymn->offeredTo->getSlug()) }}">{{ $hymn->offeredTo->display_name }}</a></li>
             @endif
         </ol>
+@endsection
+
+@section('controls')
+    @if ($canEdit)
+        <div class="col-4 text-right" title="Edit Hymn" id="editSection">
+            <div class="col-4 text-right" title="Edit Hymn" id="editSection">
+                <button id="editButton" class="btn btn-warning btn-sm">
+                    <div style="display: inline-block"><h4><i class="fas fa-pencil-square-o"></i></h4></div>
+                    <div style="display: inline-block; width: 50px;"><span>{{ __('hymns.edit_button') }}</span></div>
+                </button>
+            </div>
+        </div>
     @endif
 @endsection
 
@@ -189,26 +201,25 @@
 <!-- sidebar -->
 <aside class="col-sm-2 col-md-2 col-lg-2">
 <div class="row">
-<div class="vertical-item content-absolute ds rounded overflow_hidden">
-<div class="item-media">
-@if(file_exists(public_path($hymn->receivedBy->getPortrait())))
-    <img src="{{ asset($hymn->receivedBy->getPortrait()) }}">
-@endif
-</div>
-</div>
-<br>
 @include('layouts.partials.other_media', [ 'entity' => $hymn ])
-
-@include('layouts.partials.feedback_form', [ 'entityType' => 'hymn', 'entityId' => $hymn->id ])
+@if (!$canEdit)
+    @include('layouts.partials.feedback_form', [ 'entityType' => 'hymn', 'entityId' => $hymn->id ])
+@endif
 </div>
 <div class="row">
 <div class="col-sm-8 col-md-12 col-lg-12 padding-top-20 text-center">
 <!-- feedback form -->
-@if (\Illuminate\Support\Facades\Auth::check() && \Illuminate\Support\Facades\Auth::user()->hasRole('superadmin'))
-@include('admin.layouts.partials.add_media_form', [ 'entityType' => 'hymn', 'entityId' => $hymn->id ])
-@endif
 </div>
 </div>
+    <div class="row">
+        <div class="vertical-item content-absolute ds rounded overflow_hidden">
+            <div class="item-media">
+                @if(!is_null($hymn->receivedBy) && file_exists(public_path($hymn->receivedBy->getPortrait())))
+                    <img src="{{ asset($hymn->receivedBy->getPortrait()) }}">
+                @endif
+            </div>
+        </div>
+    </div>
 </aside>
 <!-- eof aside sidebar -->
 <script>
@@ -216,5 +227,13 @@ $(document).ready(function(){
 $('[data-toggle="tooltip"]').tooltip();
 });
 </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#editButton').click(function() {
+                window.location.href = '{{ url('edit-hymn/' . $hymn->id) }}';
+            });
+        });
+    </script>
 @endsection
 

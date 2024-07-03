@@ -1,5 +1,5 @@
 <html>
 <head>
-<meta http-equiv="Refresh" content="0; url='/goodbye'" />
+<meta http-equiv="Refresh" content="0; url='/'" />
 </head>
 </html>

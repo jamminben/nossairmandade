@@ -1,6 +1,6 @@
 @if (count($hymn->getRecordings()) > 0)
     <div class="col-sm-12 col-md-12 text-left">
-        @include('hymns.partials.audio_file_display', ['mediaFile' => $hymn->getRecordings()[0]])
+        @include('hymns.partials.audio_file_display', [ 'mediaFile' => $hymn->getRecordings()[0], 'isOfficial' => $hymn->isOfficial($hymn->getRecordings()[0]->id) ])
 
         <div id="players" class="panel-group collapse-unstyled">
             <div class="panel">
@@ -13,7 +13,7 @@
                         <div class="panel-content hymn-players-panel">
                             @foreach ($hymn->getRecordings() as $recording)
                                 @if (!$loop->first)
-                                    @include('hymns.partials.audio_file_display', ['mediaFile' => $recording])
+                                    @include('hymns.partials.audio_file_display', [ 'mediaFile' => $recording, 'isOfficial' => $hymn->isOfficial($recording->id) ])
                                     @if (!$loop->last)
                                         <br>
                                     @endif

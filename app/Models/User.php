@@ -43,9 +43,32 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    public function canEditHinario($hinarioId) {
-        $user = Auth::user();
-        return $user->hasPermissionTo(Constants::EDIT_HINARIO."_".$hinarioId);
+    public function canEditHinario($hinarioId)
+    {
+        return $this->hasRole('superadmin') || Auth::user()->hasPermissionTo(Constants::EDIT_HINARIO."_".$hinarioId);
+    }
+
+    public function canEditPerson($personId)
+    {
+        return $this->hasRole('superadmin') || Auth::user()->hasPermissionTo(Constants::EDIT_PERSON."_".$personId);
+    }
+
+    public function canEditHymn($hymnId) {
+        $hymn = Hymn::where('id', $hymnId)->first();
+        $canEdit = false;
+        if ($this->hasRole('superadmin')) {
+            $canEdit = true;
+        }
+
+        foreach ($hymn->hinarios as $hinario)
+        {
+            if (Auth::user()->hasPermissionTo(Constants::EDIT_HINARIO."_".$hinario->id))
+            {
+                $canEdit = true;
+            }
+        }
+
+        return $canEdit;
     }
 
 }

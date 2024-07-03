@@ -86,7 +86,7 @@ class MediaImportController extends Controller
         if (!file_exists($destinationRoot . $hymnId .'/' .$sourceId)) {
             mkdir($destinationRoot . $hymnId .'/' .$sourceId);
         }
-        
+
         copy($uploadFile, $destinationRoot . $hymnId . '/' . $sourceId . '/' . $oldName);
 
         $mediaFile = new MediaFile();
@@ -275,7 +275,7 @@ class MediaImportController extends Controller
 
                 $zip_archive = new ZipArchive;
 
-                if ($zip_archive->open(public_path($zipFileName), ZipArchive::CREATE) === TRUE) 
+                if ($zip_archive->open(public_path($zipFileName), ZipArchive::CREATE) === TRUE)
                 {
                     // loop the files result
                     foreach ($filesToZip as $key => $value) {

@@ -8,7 +8,8 @@
             <ul>
                 <li><a href="{{route('users.index') }}">Users</a></li>
                 <li><a href="{{route('roles.index') }}">Roles</a></li>
-                <li><a href="{{route('permissions.index') }}">Permissions</a></li>
+                <li><a href="{{route('permissions.indexHinarios') }}">Hinario Permissions</a></li>
+                <li><a href="{{route('permissions.indexPersons') }}">Person Permissions</a></li>
             </ul>
         </li>
         <li>

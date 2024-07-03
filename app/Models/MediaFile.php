@@ -45,4 +45,9 @@ class MediaFile extends ModelWithTranslations
     {
         return $this->hasOne(MediaSource::class, 'id', 'media_source_id')->with('translations');
     }
+
+    public function hymn_media_files()
+    {
+        return $this->hasMany(HymnMediaFile::class, 'media_file_id', 'id');
+    }
 }

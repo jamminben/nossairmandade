@@ -2,6 +2,9 @@
 node_modules/
 npm-debug.log
 yarn-error.log
+/db/
+Dockerfile
+compose.yml
 
 # Laravel 4 specific
 bootstrap/compiled.php
@@ -23,5 +26,10 @@ Homestead.json
 .phpunit.result.cache
 
 /public/media/
+/public/images/persons
 *.clpprj
 *.csprj
+
+.DS_Store
+public/.DS_Store
+.idea/

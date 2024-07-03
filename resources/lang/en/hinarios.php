@@ -5,6 +5,24 @@ return [
     'download_button' => 'Download zip of this hinário',
     'source' => 'Source:',
     'jump' => 'Jump to audio players',
+    'edit_button' => 'Edit',
+
+    'edit_hinario' => [
+        'delete_media' => 'Delete this file',
+        'add_new_section' => 'Add new section',
+        'new_section_name_placeholder' => 'New section name',
+        'new_section_name_placeholder_secondary_language' => 'New section name (secondary language)',
+        'insert_new_hymn' => 'Check to insert new hymn into hinário here',
+        'remove_hymn' => 'Check to remove :hymn from hinário',
+        'section_name' => 'Section :number Name',
+        'original_language' => 'Original Language',
+        'original_name' => 'Original Hinário Name',
+        'secondary_language' => 'Secondary Language',
+        'secondary_name' => 'Secondary Hinário Name',
+        'page_header' => 'EDIT HINÁRIO',
+        'save_button' => 'Save',
+        'cancel_button' => 'Cancel',
+    ],
 
     'personal' => [
         'page_description' => 'These are your personal hinários.  Use them to track your favorite hymns, prepare for a special work, and anything else you can think of.',
@@ -46,7 +64,23 @@ return [
         'right_column' => [
             'header' => 'Individuals'
         ],
-        'jump' => 'Jump to list of individuals',
+        'jump' => 'Jump to list of people',
+    ],
+
+    'founders' => [
+        'page_title' => 'Hinários received by the founders of the Daime',
+    ],
+
+    'iceflu' => [
+        'page_title' => 'Hinários received by the members of ICEFLU',
+    ],
+
+    'cefli' => [
+        'page_title' => 'Hinários received by the members of CEFLI',
+    ],
+
+    'other' => [
+        'page_title' => 'Hinários received by other people and communities of the Daime',
     ],
 
 ];

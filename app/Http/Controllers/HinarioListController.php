@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\HinarioTypes;
+use App\Models\Affiliation;
 use App\Models\Hinario;
 use App\Models\Person;
 use App\Models\UserHinario;
@@ -36,7 +37,7 @@ class HinarioListController extends Controller
         //     $people[$hinario->receivedBy->list_order][$hinario->receivedBy->display_name] = $hinario->receivedBy;
         //     $tableOfContents[$hinario->receivedBy->display_name] = $hinario->receivedBy;
         // }
-        
+
         // $listOrders = array_keys($people);
         // $peopleList = [];
         // foreach ($listOrders as $listOrder) {
@@ -48,6 +49,42 @@ class HinarioListController extends Controller
         // return view('hinarios.individuals', [ 'people' => array_values($peopleList), 'tableOfContents' => $tableOfContents ]);
         return view('hinarios.individuals', [ 'tableOfContents' => $persons, 'people'=> $personsByListOrder]);
 
+    }
+
+    public function founders()
+    {
+        $affiliation = Affiliation::where('name', 'founders')->first();
+        $persons = $affiliation->people;
+        $personsByListOrder = $persons->sortByDesc('list_order');
+
+        return view('hinarios.founders', [ 'tableOfContents' => $persons, 'people'=> $personsByListOrder]);
+    }
+
+    public function iceflu()
+    {
+        $affiliation = Affiliation::where('name', 'iceflu')->first();
+        $persons = $affiliation->people;
+        $personsByListOrder = $persons->sortByDesc('list_order');
+
+        return view('hinarios.iceflu', [ 'tableOfContents' => $persons, 'people'=> $personsByListOrder]);
+    }
+
+    public function cefli()
+    {
+        $affiliation = Affiliation::where('name', 'cefli')->first();
+        $persons = $affiliation->people;
+        $personsByListOrder = $persons->sortByDesc('list_order');
+
+        return view('hinarios.cefli', [ 'tableOfContents' => $persons, 'people'=> $personsByListOrder]);
+    }
+
+    public function other()
+    {
+        $affiliation = Affiliation::where('name', 'other')->first();
+        $persons = $affiliation->people;
+        $personsByListOrder = $persons->sortByDesc('list_order');
+
+        return view('hinarios.other', [ 'tableOfContents' => $persons, 'people'=> $personsByListOrder]);
     }
 
     public function compilations()
