@@ -195,7 +195,7 @@
                         <label for="original_lyrics" class="control-label">
                             <span class="grey">{{ __('hymns.edit.original_lyrics') }}</span>
                         </label>
-                        <textarea rows="20" cols="100" name="original_lyrics" id="original_lyrics" class="form-control" placeholder="{{ __('hymns.edit.original_lyrics') }}">{{ $hymn->getPrimaryTranslation()->lyrics }}</textarea>
+                        <textarea rows="20" cols="100" name="original_lyrics" id="original_lyrics" class="form-control" placeholder="{{ __('hymns.edit.original_lyrics') }}">@if (!is_null($hymn->getPrimaryTranslation())){{ $hymn->getPrimaryTranslation()->lyrics }}@endif</textarea>
                     </div>
                 </div>
 
