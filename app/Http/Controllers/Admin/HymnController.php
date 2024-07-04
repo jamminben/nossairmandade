@@ -549,7 +549,7 @@ class HymnController extends Controller
                     $newVersion['secondary_translation']['language_id'] = $requestParams['secondary_language_id'];
                     $hymnTranslation->language_id = $requestParams['secondary_language_id'];
                 }
-                if ($requestParams['name'] != $hymnTranslation->name) {
+                if ($requestParams['secondary_name'] != $hymnTranslation->name) {
                     $oldVersion['secondary_translation']['name'] = $hymnTranslation->name;
                     $newVersion['secondary_translation']['name'] = $requestParams['secondary_name'];
                     $hymnTranslation->name = $requestParams['secondary_name'];
