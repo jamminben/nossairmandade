@@ -4,7 +4,7 @@
             <li>
                 <a href="{{ url($media->url) }}" target="_blank">{{ $media->filename }}</a><br>
                 {{ __('hinarios.source') }} <a href="{{ $media->source->url }}" target="_blank">{{ $media->source->getDescription() }}</a>
-                <br><input type="checkbox" name="delete_media_file_{{ $media->id }}"> {{ __('hinarios.edit_hinarios.delete_media') }}
+                <br><input type="checkbox" name="delete_media_file_{{ $media->id }}"> {{ __('hinarios.edit_hinario.delete_media') }}
             </li>
         @endforeach
     </ul>
