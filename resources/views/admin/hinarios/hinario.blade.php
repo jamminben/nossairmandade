@@ -137,7 +137,7 @@
                         <div class="hinario-section-name" style="margin-left:14px;">
                             {{ __('hinarios.edit_hinario.section_name', ['number' => $hymnHinario->section_number]) }}
                             <input type="text" name="section_{{ $hymnHinario->getSection()->id }}" value="{{ $hymnHinario->getSection()->getName($hinario->original_language_id) }}">
-                            <input type="text" name="section_secondary_{{ $hymnHinario->getSection()->id }}" value="@if (count($hinario->getSection->getSecondaryTranslations()) > 0){{ $hymnHinario->getSection()->getSecondaryTranslations()[0]->name }}@endif">
+                            <input type="text" name="section_secondary_{{ $hymnHinario->getSection()->id }}" value="@if (count($hinario->getSection()->getSecondaryTranslations()) > 0){{ $hymnHinario->getSection()->getSecondaryTranslations()[0]->name }}@endif">
                         </div>
 
                 </div>
