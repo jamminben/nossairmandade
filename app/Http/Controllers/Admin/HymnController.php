@@ -451,6 +451,7 @@ class HymnController extends Controller
         }
 
         $this->saveHymnEdit($request->all(), $hymn);
+        $hymn->refresh();
 
         foreach ($hymn->hinarios as $hinario)
         {
