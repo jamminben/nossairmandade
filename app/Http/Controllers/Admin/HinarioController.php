@@ -169,7 +169,7 @@ class HinarioController extends Controller
 
         $this->hinarioService->preloadHinario($hinarioId);
 
-        return redirect()->to(url('hinario/' . $hinarioId . '/' . $hinario->getPrimaryTranslation()->name));
+        return redirect()->to(url('hinario/' . $hinarioId . '/' . $hinario->getName(GlobalFunctions::getCurrentLanguage())));
     }
 
     private function saveHinarioEdit($requestParams, Hinario $hinario)
