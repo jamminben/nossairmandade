@@ -292,7 +292,7 @@ class PersonController extends Controller
 
         // New Image
         if (isset($requestParams['new_image']) && $requestParams['new_image'] != '') {
-            $imageDir = self::IMAGE_FILE_ROOT . self::IMAGE_URL_ROOT . $person->id;
+            $imageDir = public_path(self::IMAGE_URL_ROOT . $person->id);
             if (!file_exists($imageDir)) {
                 mkdir($imageDir);
             }

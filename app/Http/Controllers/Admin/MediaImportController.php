@@ -164,7 +164,7 @@ class MediaImportController extends Controller
 
     private function addMediaToPerson($personId, $sourceId)
     {
-        $destinationRoot = '/home/dh_nossa/nossairmandade.com/public/media/people/';
+        $destinationRoot = '/home/dh_nossa/nossairmandade.com/public/media/persons/';
 
         $uploadFile = $_FILES['new_media']['tmp_name'];
         $oldName = $_FILES['new_media']['name'];
