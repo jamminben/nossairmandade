@@ -170,7 +170,7 @@
                         <label for="original_name" class="control-label">
                             <span class="grey">{{ __('hymns.edit.original_name') }}</span>
                         </label>
-                        <input type="text" class="form-control " name="original_name" id="original_name" placeholder="{{ __('hymns.edit.hymn_name') }}" value="{{ $hymn->getPrimaryTranslation()->name }}">
+                        <input type="text" class="form-control " name="original_name" id="original_name" placeholder="{{ __('hymns.edit.hymn_name') }}" value="@if (!is_null($hymn->getPrimaryTranslation())){{ $hymn->getPrimaryTranslation()->name }}@endif">
                     </div>
                 </div>
 
