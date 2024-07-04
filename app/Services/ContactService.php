@@ -29,20 +29,4 @@ class ContactService
             return view('contact')->with('message', 'Uh oh, something went wrong: ' . $exception->getMessage());
         }
     }
-    
-    public function handleGoodbye($name, $email, $subject, $text)
-    {
-        try {
-            $result = Mail::to('ben.tobias@gmail.com')->send(
-                new ContactSubmit(
-                    $name,
-                    $email,
-                    $subject,
-                    $text
-                )
-            );
-        } catch (\Exception $exception) {
-            return view('contact')->with('message', 'Uh oh, something went wrong: ' . $exception->getMessage());
-        }
-    }
 }

@@ -4,27 +4,19 @@
             <a href="{{ url('') }}">@lang('nav.home')</a>
         </li>
         <li>
-            <a href="{{ url('about') }}">{{ __('nav.info') }}</a>
+            <a>{{ __('nav.hinarios') }}</a>
             <ul>
                 <li>
-                    <a href="{{ url('about') }}">{{ __('nav.about') }}</a>
+                    <a href="{{ url('/hinarios/founders') }}">{{ __('nav.founders') }}</a>
                 </li>
                 <li>
-                    <a href="{{ url('whats-new') }}">{{ __('nav.whats-new') }}</a>
+                    <a href="{{ url('/hinarios/iceflu') }}">{{ __('nav.iceflu') }}</a>
                 </li>
                 <li>
-                    <a href="{{ url('faq') }}">{{ __('nav.faq') }}</a>
-                </li>
-            </ul>
-        </li>
-        <li>
-            <a href="{{ url('/hinarios/individual') }}">{{ __('nav.hinarios') }}</a>
-            <ul>
-                <li>
-                    <a href="{{ url('/hinarios/individual') }}">{{ __('nav.individual') }}</a>
+                    <a href="{{ url('/hinarios/cefli') }}">{{ __('nav.cefli') }}</a>
                 </li>
                 <li>
-                    <a href="{{ url('/hinarios/compilations') }}">{{ __('nav.compilation') }}</a>
+                    <a href="{{ url('/hinarios/other') }}">{{ __('nav.others') }}</a>
                 </li>
                 <li>
                     <a href="{{ url('/hinarios/local') }}">{{ __('nav.local') }}</a>

@@ -10,6 +10,8 @@ use App\Models\HymnMediaFile;
 use App\Models\MediaFile;
 use App\Models\MediaFileImportMessage;
 // use Chumper\Zipper\Facades\Zipper;
+use App\Models\MediaSource;
+use App\Models\MediaSourceTranslation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use ZipArchive;
@@ -228,10 +230,10 @@ class MediaImportService
                 // $zipper = Zipper::make($zipFileName);
                 // $zipper->add($filesToZip);
                 // $zipper->close();
-                
+
                 $zip_archive = new ZipArchive;
 
-                if ($zip_archive->open(public_path($zipFileName), ZipArchive::CREATE) === TRUE) 
+                if ($zip_archive->open(public_path($zipFileName), ZipArchive::CREATE) === TRUE)
                 {
                     // loop the files result
                     foreach ($filesToZip as $key => $value) {
@@ -265,5 +267,116 @@ class MediaImportService
         }
 
         return view('admin.generate_hinario_zips_form');
+    }
+
+    public function addMediaToHymn($hymnId, $sourceId)
+    {
+        $destinationRoot = public_path('media/hymns/');
+
+        $uploadFile = $_FILES['new_media']['tmp_name'];
+        $oldName = $_FILES['new_media']['name'];
+
+        if (!file_exists($destinationRoot . $hymnId)) {
+            mkdir($destinationRoot . $hymnId);
+        }
+        if (!file_exists($destinationRoot . $hymnId .'/' .$sourceId)) {
+            mkdir($destinationRoot . $hymnId .'/' .$sourceId);
+        }
+
+        copy($uploadFile, $destinationRoot . $hymnId . '/' . $sourceId . '/' . $oldName);
+
+        $mediaFile = new MediaFile();
+        $mediaFile->media_source_id = $sourceId;
+        $mediaFile->path = $destinationRoot . $hymnId . '/' . $sourceId . '/' . $oldName;
+        $mediaFile->media_type_id = $this->getMediaType($oldName);
+        $mediaFile->filename = $oldName;
+        $mediaFile->url = '/media/hymns/' . $hymnId . '/' . $sourceId .'/' . $oldName;
+        $mediaFile->save();
+
+        $hymnMediaFile = new HymnMediaFile();
+        $hymnMediaFile->hymn_id = $hymnId;
+        $hymnMediaFile->media_file_id = $mediaFile->id;
+        $hymnMediaFile->save();
+
+        return $hymnMediaFile->id;
+    }
+
+    public function addMediaToHinario($hinarioId, $sourceId)
+    {
+        $destinationRoot = str_replace('/', '\\', public_path('media/hinarios/'));
+
+        $uploadFile = $_FILES['new_media']['tmp_name'];
+        $oldName = $_FILES['new_media']['name'];
+        if (!file_exists($destinationRoot . $hinarioId)) {
+            mkdir($destinationRoot . $hinarioId,'0755',true);
+        }
+        if (!file_exists($destinationRoot . $hinarioId .'/' .$sourceId)) {
+            mkdir($destinationRoot . $hinarioId .'/' .$sourceId);
+        }
+
+        copy($uploadFile, $destinationRoot . $hinarioId . '/' . $sourceId . '/' . $oldName);
+        $mediaFile = new MediaFile();
+        $mediaFile->media_source_id = $sourceId;
+        $mediaFile->path = $destinationRoot . $hinarioId . '/' . $sourceId . '/' . $oldName;
+        $mediaFile->media_type_id = $this->getMediaType($oldName);
+        $mediaFile->filename = $oldName;
+        $mediaFile->url = '/media/hymns/' . $hinarioId . '/' . $sourceId .'/' . $oldName;
+        $mediaFile->save();
+
+        $hinarioMediaFile = new HinarioMediaFile();
+        $hinarioMediaFile->hinario_id = $hinarioId;
+        $hinarioMediaFile->media_file_id = $mediaFile->id;
+        $hinarioMediaFile->save();
+
+        return $hinarioMediaFile->id;
+    }
+
+    private function getMediaType($filename)
+    {
+        $chunks = explode('.', $filename); // get file extension
+
+        $fileExtension = $chunks[1];
+
+        switch (strtolower($fileExtension)) {
+            case 'pdf':
+                return MediaTypes::PDF;
+                break;
+            case 'zip':
+                return MediaTypes::ZIP;
+                break;
+            case 'doc':
+                return MediaTypes::DOC;
+                break;
+            case '.jpg':
+            case 'png':
+            case 'jpeg':
+                return MediaTypes::IMG;
+                break;
+            case 'mp3':
+            case 'mpeg':
+                return MediaTypes::AUDIO;
+                break;
+            default:
+                return 0;
+        }
+    }
+
+    public function makeNewSource($description, $url)
+    {
+        if (empty($description)) {
+            $description = 'unknown';
+        }
+
+        $source = new MediaSource();
+        $source->url = $url;
+        $source->save();
+
+        $sourceTranslation = new MediaSourceTranslation();
+        $sourceTranslation->media_source_id = $source->id;
+        $sourceTranslation->language_id = GlobalFunctions::getCurrentLanguage();
+        $sourceTranslation->description = $description;
+        $sourceTranslation->save();
+
+        return $source->id;
     }
 }

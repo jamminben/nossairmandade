@@ -4,12 +4,15 @@ namespace App\Console\Commands;
 
 use App\Constants\Constants;
 use App\Models\Hinario;
+use App\Services\PermissionService;
 use Illuminate\Console\Command;
 use Spatie\Permission\Models\Permission;
 
 
 class GenerateHinarioPermissions extends Command
 {
+    private $permissionService;
+
     /**
      * The name and signature of the console command.
      *
@@ -29,32 +32,22 @@ class GenerateHinarioPermissions extends Command
      *
      * @return int
      */
+
+    public function __construct(PermissionService $permissionService)
+    {
+        $this->permissionService = $permissionService;
+
+        parent::__construct();
+    }
+
     public function handle()
     {
         $hinarios = Hinario::all();
         foreach ($hinarios as $hinario) {
-            $this->createPermission('add', $hinario->id,$hinario->getHinarioName());
-            $this->createPermission('edit', $hinario->id,$hinario->getHinarioName());
-            $this->createPermission('delete', $hinario->id,$hinario->getHinarioName());
+            $this->permissionService->createPermission('edit_hinario_' . $hinario->id, $hinario->getHinarioName(), Constants::PAGE_HINARIO);
         }
 
         $this->info('Hinario permissions generated successfully.');
         return Command::SUCCESS;
-    }
-
-    protected function createPermission($action, $hinarioId,$group)
-    {
-        $permissionName = "{$action}_hinario_{$hinarioId}";
-        // Check if permission already exists
-        if (!Permission::where('name', $permissionName)->exists()) {
-            Permission::create([
-                'name' => $permissionName,
-                'pages' => Constants::PAGE_HINARIO,
-                'group' => $group,
-            ]);
-            $this->info("Permission created: $permissionName");
-        } else {
-            $this->info("Permission already exists: $permissionName");
-        }
     }
 }

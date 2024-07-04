@@ -8,15 +8,27 @@ use App\Models\Feedback;
 use App\Models\Hinario;
 use App\Models\Hymn;
 use App\Models\HymnHinario;
+use App\Models\HymnMediaFile;
 use App\Models\HymnNotationTranslation;
 use App\Models\HymnTranslation;
+use App\Models\HymnUpdateLog;
 use App\Models\LanguageTranslation;
+use App\Models\MediaFile;
+use App\Models\MediaSource;
+use App\Models\MediaSourceTranslation;
 use App\Models\Person;
 use App\Models\PersonTranslation;
+use App\Services\GlobalFunctions;
+use App\Services\HinarioService;
+use App\Services\MediaImportService;
+use App\Services\NotationService;
+use App\Services\PatternService;
+use App\Services\PersonService;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HymnController extends Controller
 {
@@ -24,7 +36,21 @@ class HymnController extends Controller
 
     private $hymnData;
 
-    public function __construct()
+    private $hinarioService;
+    private $patternService;
+
+    private $personService;
+
+    private $mediaImportService;
+
+    private $notationService;
+
+    public function __construct(
+        HinarioService $hinarioService,
+        PatternService $patternService,
+        PersonService $personService,
+        MediaImportService $mediaImportService,
+        NotationService $notationService)
     {
         $this->hymnData = [
             'hymnId' => 0,
@@ -50,6 +76,12 @@ class HymnController extends Controller
             'hinarios' => [],
             'languages' => [],
         ];
+
+        $this->hinarioService = $hinarioService;
+        $this->patternService = $patternService;
+        $this->personService = $personService;
+        $this->mediaImportService = $mediaImportService;
+        $this->notationService = $notationService;
     }
 
     public function show()
@@ -97,17 +129,14 @@ class HymnController extends Controller
 
     private function loadPatterns()
     {
-        $patterns = Hymn::where('pattern_id', '!=', 0)
-            ->whereRaw('pattern_id IS NOT NULL')
-            ->distinct()
-            ->orderBy('pattern_id')
-            ->get('pattern_id');
+        $patterns = $this->patternService->getPatternsForDisplay();
+
         return $patterns;
     }
 
     private function loadNotations()
     {
-        $notations = HymnNotationTranslation::where('language_id', Languages::ENGLISH)->orderBy('name')->get();
+        $notations = $this->notationService->getNotationsForDisplay();
         return $notations;
     }
 
@@ -129,7 +158,7 @@ class HymnController extends Controller
 
     private function loadLanguages()
     {
-        $languages = LanguageTranslation::where('in_language_id', 2)->orderBy('language_id')->get();
+        $languages = LanguageTranslation::where('in_language_id', GlobalFunctions::getCurrentLanguage())->orderBy('language_id')->get();
         return $languages;
     }
 
@@ -381,5 +410,206 @@ class HymnController extends Controller
 
         // feedback
         $this->hymnData['feedback'] = $hymn->feedback;
+    }
+
+    public function loadHymn($hymnId)
+    {
+        $hymn = Hymn::where('id', $hymnId)->first();
+
+        if (is_null(Auth::user()) || !Auth::user()->canEditHymn($hymnId))
+        {
+            return redirect()->to(url('hymn/' . $hymnId . '/' . $hymn->getPrimaryTranslation()->name));
+        }
+
+        $patterns = $this->loadPatterns();
+        $patternIds = [];
+        foreach ($patterns as $pattern) {
+            $patternIds[] = $pattern->id;
+        }
+
+        $notations = $this->loadNotations();
+
+        return view('admin.hymns.hymn',
+            [
+                'hymn' => $hymn,
+                'persons' => $this->loadPersons(),
+                'notations' => $this->loadNotations(),
+                'patternIds' => $patternIds,
+                'languages' => $this->loadLanguages(),
+            ]);
+    }
+
+    public function saveHymn(Request $request)
+    {
+        $hymnId = $request->get('hymnId');
+
+        $hymn = Hymn::where('id', $hymnId)->first();
+
+        if (is_null(Auth::user()) || !Auth::user()->canEditHymn($hymnId))
+        {
+            return redirect()->to(url('hymn/' . $hymnId . '/' . $hymn->getPrimaryTranslation()->name));
+        }
+
+        $this->saveHymnEdit($request->all(), $hymn);
+
+        foreach ($hymn->hinarios as $hinario)
+        {
+            $this->hinarioService->preloadHinario($hinario->id);
+        }
+
+        return redirect()->to(url('hymn/' . $hymn->id . '/' . $hymn->getPrimaryTranslation()->name));
+    }
+
+    private function saveHymnEdit($requestParams, Hymn $hymn)
+    {
+        $oldVersion = [];
+        $newVersion = [];
+
+        // received_by
+        if ($requestParams['received_by'] != '' && $requestParams['received_by'] != $hymn->receivedBy->display_name) {
+            $oldVersion['hymn']['receivedBy'] = $hymn->receivedBy->display_name;
+            $newVersion['hymn']['receivedBy'] = $requestParams['received_by'];
+            $hymn->received_by = $this->personService->getIdFromDisplayName($requestParams['received_by'], true);
+        }
+
+        // offered_to
+        if ($requestParams['offered_to'] != '' && $requestParams['offered_to'] != $hymn->offeredTo->display_name) {
+            $oldVersion['hymn']['offeredTo'] = $hymn->offered_to;
+            $newVersion['hymn']['offeredTo'] = $requestParams['offered_to'];
+            $hymn->offered_to = $this->personService->getIdFromDisplayName($requestParams['offered_to'], true);
+        }
+
+        // hymn
+        if ($requestParams['received_date'] != $hymn->received_date) {
+            $oldVersion['hymn']['received_date'] = $hymn->received_date;
+            $newVersion['hymn']['received_date'] = date('Y-m-d H:i:s', strtotime($requestParams['received_date']));
+            $hymn->received_date = date('Y-m-d H:i:s', strtotime($requestParams['received_date']));
+        }
+        if ($requestParams['received_location'] != $hymn->received_location) {
+            $oldVersion['hymn']['received_location'] = $hymn->received_location;
+            $newVersion['hymn']['received_location'] = $requestParams['received_location'];
+            $hymn->received_location = $requestParams['received_location'];
+        }
+        if ($requestParams['pattern_id'] != $hymn->pattern_id) {
+            $oldVersion['hymn']['pattern_id'] = $hymn->pattern_id;
+            $newVersion['hymn']['pattern_id'] = $requestParams['pattern_id'];
+            $hymn->pattern_id = $requestParams['pattern_id'];
+        }
+        if ($requestParams['notation_id'] != $hymn->notation) {
+            $oldVersion['hymn']['notation'] = $hymn->notation;
+            $newVersion['hymn']['notation'] = $requestParams['notation_id'];
+            $hymn->notation = $requestParams['notation_id'];
+        }
+        if ($requestParams['original_language_id'] != $hymn->original_language_id) {
+            $oldVersion['hymn']['original_language_id'] = $hymn->original_language_id;
+            $newVersion['hymn']['original_language_id'] = $requestParams['original_language_id'];
+            $hymn->original_language_id = $requestParams['original_language_id'];
+        }
+
+        $hymn->save();
+
+        // hymn_translation
+        if ($requestParams['original_lyrics'] != '' || $requestParams['original_name'] != '') {
+            $hymnTranslation = $hymn->getPrimaryTranslation();
+            if (empty($hymnTranslation)) {
+                $hymnTranslation = new HymnTranslation();
+            }
+
+            if ($requestParams['original_lyrics'] != $hymnTranslation->lyrics || $requestParams['original_name'] != $hymnTranslation->name) {
+                $hymnTranslation->hymn_id = $hymn->id;
+                if ($requestParams['original_language_id'] != $hymnTranslation->language_id) {
+                    $oldVersion['primary_translation']['language_id'] = $hymnTranslation->language_id;
+                    $newVersion['primary_translation']['language_id'] = $requestParams['original_language_id'];
+                    $hymnTranslation->language_id = $requestParams['original_language_id'];
+                }
+                if ($requestParams['original_name'] != $hymnTranslation->name) {
+                    $oldVersion['primary_translation']['name'] = $hymnTranslation->name;
+                    $newVersion['primary_translation']['name'] = $requestParams['original_name'];
+                    $hymnTranslation->name = $requestParams['original_name'];
+                }
+                if ($requestParams['original_lyrics'] != $hymnTranslation->lyrics) {
+                    $oldVersion['primary_translation']['lyrics'] = $hymnTranslation->lyrics;
+                    $newVersion['primary_translation']['lyrics'] = $requestParams['original_lyrics'];
+                    $hymnTranslation->lyrics = $requestParams['original_lyrics'];
+                }
+                $hymnTranslation->save();
+            }
+        }
+
+        if ($requestParams['secondary_lyrics'] != '' || $requestParams['secondary_name'] != '') {
+            $hymnTranslation = $hymn->getTranslation($requestParams['secondary_language_id']);
+            if (empty($hymnTranslation)) {
+                $hymnTranslation = new HymnTranslation();
+            }
+
+            if ($requestParams['secondary_lyrics'] != $hymnTranslation->lyrics || $requestParams['secondary_name'] != $hymnTranslation->name) {
+                $hymnTranslation->hymn_id = $hymn->id;
+                if ($requestParams['secondary_language_id'] != $hymnTranslation->language_id) {
+                    $oldVersion['secondary_translation']['language_id'] = $hymnTranslation->language_id;
+                    $newVersion['secondary_translation']['language_id'] = $requestParams['secondary_language_id'];
+                    $hymnTranslation->language_id = $requestParams['secondary_language_id'];
+                }
+                if ($requestParams['name'] != $hymnTranslation->name) {
+                    $oldVersion['secondary_translation']['name'] = $hymnTranslation->name;
+                    $newVersion['secondary_translation']['name'] = $requestParams['secondary_name'];
+                    $hymnTranslation->name = $requestParams['secondary_name'];
+                }
+                if ($requestParams['secondary_lyrics'] != $hymnTranslation->lyrics) {
+                    $oldVersion['secondary_translation']['lyrics'] = $hymnTranslation->lyrics;
+                    $newVersion['secondary_translation']['lyrics'] = $requestParams['secondary_lyrics'];
+                    $hymnTranslation->lyrics = $requestParams['secondary_lyrics'];
+                }
+                $hymnTranslation->save();
+            }
+        }
+
+        // delete media files and mark as official
+        foreach ($hymn->mediaFiles as $file)
+        {
+            $hymnMediaFile = HymnMediaFile::where('hymn_id', $hymn->id)->where('media_file_id', $file->id)->first();
+            if (isset($requestParams['actions_'.$file->id])) {
+                switch ($requestParams['actions_'.$file->id]) {
+                    case 'delete':
+                        $oldVersion['hymn_media']['media_file_id'][] = 'delete hymn_media_file ' . $file->id;
+                        $hymnMediaFile->delete();
+                        break;
+                    case 'mark_official':
+                        if ($hymnMediaFile->official != 1) {
+                            $oldVersion['hymn_media']['media_file_id'][] = 'mark official hymn_media_file ' . $hymnMediaFile->id;
+                            $hymnMediaFile->official = 1;
+                            $hymnMediaFile->save();
+                        }
+                        break;
+                    case 'unmark_official':
+                        if ($hymnMediaFile->official != 0) {
+                            $oldVersion['hymn_media']['media_file_id'][] = 'unmark official hymn_media_file ' . $hymnMediaFile->id;
+                            $hymnMediaFile->official = 0;
+                            $hymnMediaFile->save();
+                        }
+                        break;
+                }
+            }
+
+            if (isset($requestParams['delete_media_file_' . $file->id])) {
+                $hymnMediaFile->delete();
+                $oldVersion['hymn_media']['media_file_id'][] = 'delete hymn_media_file ' . $file->id;
+            }
+        }
+
+        // new media files
+        $oldName = $_FILES['new_media']['name'];
+        if (!empty($oldName)) {
+            $sourceId = $this->mediaImportService->makeNewSource($requestParams['new_source_description'], $requestParams['new_source_url']);
+            $hymnMediaFileId = $this->mediaImportService->addMediaToHymn($hymn->id, $sourceId);
+            $newVersion['hymn_media']['media_file_id'][] = $hymnMediaFileId;
+        }
+
+        $hymnUpdateLog = new HymnUpdateLog();
+        $hymnUpdateLog->hymn_id = $hymn->id;
+        $hymnUpdateLog->updated_by = Auth::user()->id;
+        $hymnUpdateLog->updated_at = date('Y-m-d H:i:s');
+        $hymnUpdateLog->old_version = json_encode($oldVersion);
+        $hymnUpdateLog->new_version = json_encode($newVersion);
+        $hymnUpdateLog->save();
     }
 }

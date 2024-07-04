@@ -236,6 +236,27 @@ class Hymn extends ModelWithTranslations
         return null;
     }
 
+    public function isOfficial($recordingId)
+    {
+        $hymnMediaFile = HymnMediaFile::where('hymn_id', $this->id)->where('media_file_id', $recordingId)->first();
+
+        if (is_null($hymnMediaFile) || $hymnMediaFile->official == 0) {
+            return false;
+        }
+        return true;
+    }
+
+    public function getReceivedOrder($hinarioId)
+    {
+        foreach ($this->hymnHinarios as $hymnHinario) {
+            if ($hymnHinario->hinario_id == $hinarioId) {
+                return $hymnHinario->list_order;
+            }
+        }
+
+        return '';
+    }
+
     /**************************
      **    Relationships     **
      **************************/

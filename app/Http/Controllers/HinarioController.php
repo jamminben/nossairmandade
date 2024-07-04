@@ -8,6 +8,7 @@ use App\Services\GlobalFunctions;
 use App\Services\HinarioService;
 use Illuminate\Support\Facades\Auth;
 use Mpdf\Mpdf;
+use App\Classes\Stanza;
 
 
 class HinarioController extends Controller
@@ -35,22 +36,26 @@ class HinarioController extends Controller
 
         $displaySections = count($hinario->getSections()) > 1;
 
-        return view('hinarios.hinario', [ 'hinario' => $hinario, 'sections' => $hinario->getSections(), 'userHinarios' => $userHinarios, 'displaySections' => $displaySections ]);
+        return view('hinarios.hinario',
+            [
+                'hinario' => $hinario,
+                'sections' => $hinario->getSections(),
+                'userHinarios' => $userHinarios,
+                'displaySections' => $displaySections
+            ]);
     }
 
     public function showPreloaded($hinarioId, $hinarioName = null)
     {
         $hinario = Hinario::where('id', $hinarioId)->first();
         GlobalFunctions::setActiveHinario($hinarioId);
-        
+
         // this is for the add hymn forms
         if (Auth::check()) {
             $userHinarios = UserHinario::where('user_id', Auth::user()->getAuthIdentifier())->orderBy('name')->get();
         } else {
             $userHinarios = [];
         }
-
-        $displaySections = count($hinario->getSections()) > 1;
 
         if (empty($hinario->preloaded_json)) {
             $this->hinarioService->preloadHinario($hinarioId);
@@ -168,7 +173,7 @@ class HinarioController extends Controller
 
                             if ($hasTranslation) {
                                 if (!isset($stanzas2[$x])) {
-                                    echo $x; die(print_r($stanzas2));
+                                    $preparedStanzas2[] = new Stanza('');
                                 }
                                 $preparedStanzas2[] = $stanzas2[$x];
                             }

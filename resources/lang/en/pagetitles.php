@@ -60,6 +60,26 @@ return [
             'view' => 'View Hinario'
         ],
 
+        'founders' => [
+            'header_title' => 'Founders od the Holy Doctrine',
+            'page_title' => 'Hinários received by the founders of the Daime'
+        ],
+
+        'iceflu' => [
+            'header_title' => 'ICEFLU Hinários',
+            'page_title' => 'Hinários received by ICEFLU and its members'
+        ],
+
+        'cefli' => [
+            'header_title' => 'CEFLI Hinários',
+            'page_title' => 'Hinários received by CEFLI and its members'
+        ],
+
+        'other' => [
+            'header_title' => 'Other Hinários',
+            'page_title' => 'Hinários received by other people and communities of the Daime'
+        ],
+
     ],
 
     'other' => [

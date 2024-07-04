@@ -14,25 +14,15 @@ class HymnHinario extends Model
 
     public function getSection()
     {
-        if (empty($this->loadedSection)) {
-            /*$section = HinarioSection::where('hinario_id', $this->hinario_id)
-                ->where('section_number', $this->section_number)
-                ->with('translations')
-                ->first();*/
-            $section = $this->section;
+        $section = HinarioSection::where('hinario_id', $this->hinario_id)->where('section_number', $this->section_number)->first();
 
-            if (empty($section)) {
-                $section = new HinarioSection();
-                $sectionTranslation = new HinarioSectionTranslation();
-                $sectionTranslation->name = $this->hinario->getName($this->hinario->original_language_id);
-                $sectionTranslation->languageId = GlobalFunctions::getCurrentLanguage();
-                $section->translations = collect([$sectionTranslation]);
-                $section->hinario_id = $this->hinario->id;
-            }
-
-            $this->loadedSection = $section;
-        } else {
-            $section = $this->loadedSection;
+        if (empty($section)) {
+            $section = new HinarioSection();
+            $sectionTranslation = new HinarioSectionTranslation();
+            $sectionTranslation->name = $this->hinario->getName($this->hinario->original_language_id);
+            $sectionTranslation->languageId = GlobalFunctions::getCurrentLanguage();
+            $section->translations = collect([$sectionTranslation]);
+            $section->hinario_id = $this->hinario->id;
         }
 
         return $section;
@@ -54,8 +44,10 @@ class HymnHinario extends Model
 
     public function section()
     {
-        return $this->hasOne(HinarioSection::class, 'hinario_id', $this->hinario_id)
-            ->where('section_number', $this->section_number)
+        $dingus = $this->hasOne(HinarioSection::class, 'hinario_id', 'hinario_id')
+            ->where('hinario_sections.section_number', 'hymn_hinarios.section_number')
             ->with('translations');
+
+        return $dingus;
     }
 }

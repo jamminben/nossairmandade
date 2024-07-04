@@ -58,6 +58,21 @@ class ModelWithTranslations extends Model
         return null;
     }
 
+    public function getSecondaryTranslations()
+    {
+        $translations = [];
+        foreach ($this->translations as $translation) {
+            if ($translation->language_id != $this->original_language_id) {
+                if ($translation->language_id == GlobalFunctions::getCurrentLanguage()) {
+                    array_unshift($translations, $translation);
+                } else {
+                    array_push($translations, $translation);
+                }
+            }
+        }
+        return $translations;
+    }
+
     /**************************
      **    Relationships     **
      **************************/

@@ -5,7 +5,7 @@
 @endsection
 
 @section('page_title')
-    <h2 class="small display_table_cell_md">Edit Permissions</h2>
+    <h2 class="small display_table_cell_md">Edit Hinario Permissions</h2>
 @endsection
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/datatables.min.css') }}">
@@ -41,7 +41,7 @@
     use App\Constants\Constants;
 @endphp
 <!-- <div class="container">
-    <form action="{{route('permission.assignPermissions')}}" method="post">
+    <form action="{{route('permission.assignHinarioPermissions')}}" method="post">
         @csrf
         <div class="row">
             <div class="container mt-5">
@@ -135,7 +135,7 @@
                     <tr>
                         <td>{{$group}}</td>
                         <td>
-                            <form action="{{route('permission.assignPermissions')}}" method="post">
+                            <form action="{{route('permission.assignHinarioPermissions')}}" method="post">
                                 <input type="hidden" name="userId" value="{{$user->id}}">
                                 @csrf
                                 <div class="checkboxes">

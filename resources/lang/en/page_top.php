@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'advanced_search' => 'advanced search',
+
     'search' => [
         'label' => 'Search',
         'placeholder' => 'Search the hymns',

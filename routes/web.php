@@ -3,9 +3,6 @@
 use Illuminate\Support\Facades\Artisan;
 
 
-
-Route::get('/goodbye', 'StaticPageController@goodbye');
-Route::post('/goodbye', 'StaticPageController@handleGoodbye');
 /*
 Route::get('/dev', function() { return view('dev'); });
 Route::get('/canabia', function() { return view('canabia'); });
@@ -13,7 +10,7 @@ Route::get('/canabia', function() { return view('canabia'); });
 /**
  * Static pages
  */
- 
+
 
 Route::get('/', 'StaticPageController@index');
 Route::get('/index.php', 'StaticPageController@index');
@@ -45,7 +42,7 @@ Route::get('password/reset-confirm', 'StaticPageController@registerComplete');
 /**
  * Languages
  */
-//Route::get('/language/{languageCode}', 'StaticPageController@language');
+Route::get('/language/{languageCode}', 'StaticPageController@language');
 
 /**
  * Profile
@@ -67,6 +64,10 @@ Route::get('/person/{personId}/{personName}', 'PersonController@show');
  */
 
 Route::get('/hinarios/individual', 'HinarioListController@individual');
+Route::get('/hinarios/founders', 'HinarioListController@founders');
+Route::get('/hinarios/iceflu', 'HinarioListController@iceflu');
+Route::get('/hinarios/cefli', 'HinarioListController@cefli');
+Route::get('/hinarios/other', 'HinarioListController@other');
 Route::get('/hinarios/official_hinarios.php', 'HinarioListController@individual');
 Route::get('/hinarios/other_hinarios.php', 'HinarioListController@individual');
 Route::get('/hinarios/compilations', 'HinarioListController@compilations');
@@ -106,6 +107,12 @@ Route::get('/raw_hinario.php?hid={hinarioId}', 'HinarioController@plainText');
 Route::get('/user-hinario/{code}', 'HinarioController@userHinario');
 Route::get('/user-hinario/{code}/pdf', 'UserHinarioController@showPdf');
 
+Route::get('/edit-hinario/{hinarioId}', 'Admin\HinarioController@loadHinario');
+Route::post('/edit-hinario/{hinarioId}', 'Admin\HinarioController@saveHinario');
+
+Route::get('/edit-person/{personId}', 'Admin\PersonController@loadPerson');
+Route::post('/edit-person/{personId}', 'Admin\PersonController@savePerson');
+
 /**
  * Hymns
  */
@@ -113,12 +120,18 @@ Route::get('/user-hinario/{code}/pdf', 'UserHinarioController@showPdf');
 Route::get('/hymn/{hymnId}/{hymnName?}', 'HymnController@show');
 Route::get('/hymn.php?hid={hymnId}', 'HymnController@show');
 
+Route::get('/edit-hymn/{hymnId}', 'Admin\HymnController@loadHymn');
+Route::post('/edit-hymn/{hymnId}', 'Admin\HymnController@saveHymn');
+
+Route::get('/sample-pattern/{patternId}', 'Admin\PatternController@samplePattern');
+Route::get('/all-sample-patterns', 'Admin\PatternController@allPatterns');
+
 Auth::routes(['verify' => true]);
 
 /**
  * Admin
  */
- 
+
 Route::group(['middleware' => ['admin'], 'prefix' => 'admin'], function() {
 
     Route::get('/clear-route',function(){
@@ -128,7 +141,7 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin'], function() {
 
     Route::get('/execute-hinario-id/{id}', function ($id) {
         // execute hinario:preload id command
-        Artisan::call('hinario:preload'.' '.$id);    
+        Artisan::call('hinario:preload'.' '.$id);
         $output = Artisan::output();
         return $output;
     });
@@ -138,31 +151,34 @@ Route::group(['middleware' => ['admin'], 'prefix' => 'admin'], function() {
     // users start
     Route::get('/view-users','Admin\UserController@index')->name('users.index');
 
-    // roles 
+    // roles
     Route::get('/view-roles','Admin\RoleController@index')->name('roles.index');
     Route::post('/add-roles','Admin\RoleController@store')->name('roles.store');
     Route::post('/update-roles','Admin\RoleController@update')->name('roles.update');
     Route::post('/delete-role','Admin\RoleController@delete')->name('role.delete');
 
     // Permissions
-    Route::get('/view-permissions','Admin\PermissionController@index')->name('permissions.index');
+    Route::get('/view-hinario-permissions','Admin\PermissionController@indexHinarios')->name('permissions.indexHinarios');
+    Route::get('/view-person-permissions','Admin\PermissionController@indexPersons')->name('permissions.indexPersons');
     Route::post('/add-permissions','Admin\PermissionController@store')->name('permissions.store');
     Route::post('/update-permissions','Admin\PermissionController@update')->name('permissions.update');
     Route::post('/delete-permission','Admin\PermissionController@delete')->name('permission.delete');
-    Route::match(['get' , 'post'],'/view-assign-permissions','Admin\PermissionController@assignPermissionsToUser')->name('permission.assignPermissionsToUser');
-    Route::match(['get' , 'post'],'/assign-permissions','Admin\PermissionController@assignPermissions')->name('permission.assignPermissions');
-    
+    Route::match(['get' , 'post'],'/view-assign-hinario-permissions','Admin\PermissionController@assignHinarioPermissionsToUser')->name('permission.assignHinarioPermissionsToUser');
+    Route::match(['get' , 'post'],'/view-assign-person-permissions','Admin\PermissionController@assignPersonPermissionsToUser')->name('permission.assignPersonPermissionsToUser');
+    Route::match(['get' , 'post'],'/assign-hinario-permissions','Admin\PermissionController@assignHinarioPermissions')->name('permission.assignHinarioPermissions');
+    Route::match(['get' , 'post'],'/assign-person-permissions','Admin\PermissionController@assignPersonPermissions')->name('permission.assignPersonPermissions');
 
 
 
 
 
-    // user managemetn end
+
+    // user management end
 
     Route::get('/enter-hymn', 'Admin\HymnController@show');
     Route::post('/enter-hymn', 'Admin\HymnController@save');
     Route::get('/load-hymn', 'Admin\HymnController@load');
-    Route::post('/edit-hymn', 'Admin\HymnController@save');
+    //Route::post('/edit-hymn', 'Admin\HymnController@save');
 
     Route::get('/edit-person', 'Admin\PersonController@show');
     Route::post('/edit-person', 'Admin\PersonController@save');

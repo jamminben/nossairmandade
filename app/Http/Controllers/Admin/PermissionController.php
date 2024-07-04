@@ -11,21 +11,47 @@ use Spatie\Permission\Models\Permission;
 
 class PermissionController extends Controller
 {
-    public function index(Request $request) {
-        $permissions = Permission::all();    
-        $pages = Permission::distinct('pages')->pluck('pages');    
+    public function indexHinarios(Request $request) {
+        $permissions = Permission::where('pages', Constants::PAGE_HINARIO)->get();
+        $pages = Permission::distinct('pages')->pluck('pages');
         return view('admin.user_management.permissions.index', ['permissions' => $permissions, 'pages' => $pages]);
     }
 
-    public function assignPermissionsToUser(Request $request) {
+    public function indexPersons(Request $request) {
+        $permissions = Permission::where('pages', Constants::PAGE_PERSON)->get();
+        $pages = Permission::distinct('pages')->pluck('pages');
+        return view('admin.user_management.permissions.index', ['permissions' => $permissions, 'pages' => $pages]);
+    }
+
+    public function assignHinarioPermissionsToUser(Request $request) {
         $user = User::where('id',$request->userId)->first();
         $permissions = Permission::where('pages', Constants::PAGE_HINARIO)->get()->groupBy('group')->sortBy(function ($group, $key) {
             return $key;
         });
-        return view('admin.user_management.permissions.assignPermission',['permissions'=>$permissions, 'user' => $user]);
+        return view('admin.user_management.permissions.assignHinarioPermission',['permissions'=>$permissions, 'user' => $user]);
     }
 
-    public function assignPermissions(Request $request) {
+    public function assignPersonPermissionsToUser(Request $request) {
+        $user = User::where('id',$request->userId)->first();
+        $permissions = Permission::where('pages', Constants::PAGE_PERSON)->get()->groupBy('group')->sortBy(function ($group, $key) {
+            return $key;
+        });
+        return view('admin.user_management.permissions.assignPersonPermission',['permissions'=>$permissions, 'user' => $user]);
+    }
+
+    public function assignHinarioPermissions(Request $request) {
+        $user = User::where('id',$request->userId)->first();
+        foreach($request->permissions as $name => $value) {
+            if ($value == Constants::HINARIO_CHECKBOX_ACTIVE_STATE) {
+                $user->givePermissionTo($name);
+            } else {
+                $user->revokePermissionTo($name);
+            }
+        }
+        return redirect()->route('users.index')->with('success', 'Permissions updated successfully.');
+    }
+
+    public function assignPersonPermissions(Request $request) {
         $user = User::where('id',$request->userId)->first();
         foreach($request->permissions as $name => $value) {
             if ($value == Constants::HINARIO_CHECKBOX_ACTIVE_STATE) {

@@ -31,5 +31,14 @@ return [
         'create_header' => 'Create new hinário',
     ],
 
+    'add_media' => [
+        'add_media' => 'Add media',
+        'choose_file' => 'Choose file',
+        'new_source_name' => 'Media Source Name',
+        'new_source_url' => 'Media Source URL',
+        'add_new_source_label' => 'Media source:',
+        'add_media_tooltip_text' => 'If you add a file with the extension .mp3 or .mpeg, it will be playable in the music player.  Any other file type will appear as a file but not be playable.',
+    ],
+
     'close' => 'Close'
 ];

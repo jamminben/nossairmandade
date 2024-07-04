@@ -30,36 +30,6 @@ class StaticPageController extends Controller
         $this->contactService = $contactService;
         $this->linkService = $linkService;
     }
-    
-    public function goodbye()
-    {
-    	return view('goodbye');
-    }
-    
-    public function handleGoodbye(Request $request)
-    {
-        try {
-            $this->validate($request,
-                [
-                    'name' => 'required|string',
-                    'email' => 'required|email',
-                    'subject' => 'required|string',
-                    'message' => 'required|string'
-                ]
-            );
-        } catch (\Exception $ex) {
-            die($ex->getMessage());
-        }
-
-        $this->contactService->handleGoodbye(
-            $request->get('name'),
-            $request->get('email'),
-            $request->get('subject'),
-            $request->get('message')
-        );
-
-        return back()->with('success', __('contact.message_received'));
-    }
 
     public function index()
     {

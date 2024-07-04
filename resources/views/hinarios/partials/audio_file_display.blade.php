@@ -24,7 +24,7 @@
                         showvolume: false,
                         show_prev_next: true,
                         @if ($hymnCount > 1)
-                            downloadtarget: '/public/media/hinarios/{{ $hinario->id }}/{{ $sourceId }}/{{ $hinario->name }}.zip',
+                            downloadtarget: '/media/hinarios/{{ $hinario->id }}/{{ $sourceId }}/{{ $hinario->name }}.zip',
                             downloadtitle: '{{ __('hinarios.download_button') }}'
                         @endif
                     });

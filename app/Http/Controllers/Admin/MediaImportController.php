@@ -86,7 +86,7 @@ class MediaImportController extends Controller
         if (!file_exists($destinationRoot . $hymnId .'/' .$sourceId)) {
             mkdir($destinationRoot . $hymnId .'/' .$sourceId);
         }
-        
+
         copy($uploadFile, $destinationRoot . $hymnId . '/' . $sourceId . '/' . $oldName);
 
         $mediaFile = new MediaFile();
@@ -135,8 +135,8 @@ class MediaImportController extends Controller
 
     private function addMediaToHinario($hinarioId, $sourceId)
     {
-        // $destinationRoot = '/home/dh_nossa/nossairmandade.com/public/media/hinarios/';
-        $destinationRoot = str_replace('/', '\\', public_path('media/hinarios/'));
+        $destinationRoot = '/home/dh_nossa/nossairmandade.com/public/media/hinarios/';
+        //$destinationRoot = str_replace('/', '\\', public_path('media/hinarios/'));
 
         $uploadFile = $_FILES['new_media']['tmp_name'];
         $oldName = $_FILES['new_media']['name'];
@@ -164,7 +164,7 @@ class MediaImportController extends Controller
 
     private function addMediaToPerson($personId, $sourceId)
     {
-        $destinationRoot = '/home/dh_nossa/nossairmandade.com/public/media/people/';
+        $destinationRoot = '/home/dh_nossa/nossairmandade.com/public/media/persons/';
 
         $uploadFile = $_FILES['new_media']['tmp_name'];
         $oldName = $_FILES['new_media']['name'];
@@ -275,7 +275,7 @@ class MediaImportController extends Controller
 
                 $zip_archive = new ZipArchive;
 
-                if ($zip_archive->open(public_path($zipFileName), ZipArchive::CREATE) === TRUE) 
+                if ($zip_archive->open(public_path($zipFileName), ZipArchive::CREATE) === TRUE)
                 {
                     // loop the files result
                     foreach ($filesToZip as $key => $value) {
