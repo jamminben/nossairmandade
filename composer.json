@@ -18,7 +18,8 @@
         "laravel/ui": "^3.0",
         "livewire/livewire": "^2.10",
         "mpdf/mpdf": "^8.0",
-        "spatie/laravel-permission": "^6.4"
+        "patreon/patreon": "^1.0",
+        "spatie/laravel-permission": "^6.4",
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.9",

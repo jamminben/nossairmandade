@@ -110,6 +110,21 @@ return [
         'page_title' => 'Donate to nossairmandade.com',
     ],
 
+    'subscribe' => [
+        'header_title' => 'Subscribe',
+        'page_title' => 'Become a member of nossairmandade.com',
+    ],
+
+    'privacy' => [
+        'header_title' => 'Privacy Policy',
+        'page_title' => 'Privacy Policy',
+    ],
+
+    'tos' => [
+        'header_title' => 'Terms of Service',
+        'page_title' => 'Terms of Service',
+    ],
+
     'auth' => [
         'register' => [
             'header_title' => 'Register',

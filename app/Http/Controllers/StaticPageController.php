@@ -114,6 +114,21 @@ class StaticPageController extends Controller
         return view('donate');
     }
 
+    public function subscribe()
+    {
+        return view('subscribe');
+    }
+
+    public function privacy()
+    {
+        return view('privacy');
+    }
+
+    public function tos()
+    {
+        return view('tos');
+    }
+
     public function language($languageCode)
     {
         switch($languageCode) {

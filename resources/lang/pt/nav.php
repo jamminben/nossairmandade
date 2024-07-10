@@ -20,6 +20,8 @@ return [
     'links' => 'Amigos',
     'contact' => 'Contato',
     'donate' => 'Doar',
+    'subscribe' => 'Subscrever',
+    'give' => 'Dar',
     'whats-new' => 'O Que Há De Novo',
     'info' => 'Info do Site',
     'faq' => 'Perguntas Frequentes',

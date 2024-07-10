@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8dbc004ae79b872167b3b7e95b360977",
+    "content-hash": "ec0106bfe97aecbb5c0669d7d14d98e4",
     "packages": [
         {
             "name": "brick/math",
@@ -3160,6 +3160,46 @@
             "time": "2020-10-15T08:29:30+00:00"
         },
         {
+            "name": "patreon/patreon",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Patreon/patreon-php.git",
+                "reference": "206575a16ce9a447b79b2367e1d4991ce76202d2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Patreon/patreon-php/zipball/206575a16ce9a447b79b2367e1d4991ce76202d2",
+                "reference": "206575a16ce9a447b79b2367e1d4991ce76202d2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Patreon\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Patreon",
+                    "email": "platform-team@patreon.com"
+                }
+            ],
+            "description": "Interact with the Patreon API via OAuth.",
+            "support": {
+                "issues": "https://github.com/Patreon/patreon-php/issues",
+                "source": "https://github.com/Patreon/patreon-php/tree/1.0.0"
+            },
+            "time": "2019-08-21T20:25:53+00:00"
+        },
+        {
             "name": "phpoption/phpoption",
             "version": "1.9.2",
             "source": {
@@ -4152,6 +4192,65 @@
                 }
             ],
             "time": "2024-02-28T08:11:20+00:00"
+        },
+        {
+            "name": "stripe/stripe-php",
+            "version": "v15.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stripe/stripe-php.git",
+                "reference": "ce69d019941cf528c036ae0d1a3a9580c7389460"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/ce69d019941cf528c036ae0d1a3a9580c7389460",
+                "reference": "ce69d019941cf528c036ae0d1a3a9580c7389460",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": ">=5.6.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "3.5.0",
+                "phpstan/phpstan": "^1.2",
+                "phpunit/phpunit": "^5.7 || ^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Stripe\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stripe and contributors",
+                    "homepage": "https://github.com/stripe/stripe-php/contributors"
+                }
+            ],
+            "description": "Stripe PHP Library",
+            "homepage": "https://stripe.com/",
+            "keywords": [
+                "api",
+                "payment processing",
+                "stripe"
+            ],
+            "support": {
+                "issues": "https://github.com/stripe/stripe-php/issues",
+                "source": "https://github.com/stripe/stripe-php/tree/v15.1.0"
+            },
+            "time": "2024-07-05T18:52:07+00:00"
         },
         {
             "name": "symfony/console",
