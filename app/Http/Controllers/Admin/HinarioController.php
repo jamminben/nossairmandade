@@ -130,7 +130,7 @@ class HinarioController extends Controller
             ->with('translations', 'sections', 'hymns', 'hymnHinarios', 'hymnHinarios.hinario', 'receivedBy', 'hymns.mediaFiles', 'hymns.translations', 'hymns.hymnHinarios')
             ->first();
 
-        if (is_null(Auth::user()) || !Auth::user()->canEditHymn($hinarioId)) {
+        if (is_null(Auth::user()) || !Auth::user()->canEditHinario($hinarioId)) {
             return redirect()->to(url('hinario/' . $hinarioId . '/' . $hinario->getPrimaryTranslation()->name));
         }
 
