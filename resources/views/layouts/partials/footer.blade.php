@@ -38,11 +38,6 @@
                     <p>{!! __('universal.footer.donate_text') !!}</p>
                 </div>
                 <br><br>
-                <div class="widget widget_text greylinks color2">
-                    <a href="{{ url('privacy') }}">{{ __('pagetitles.privacy.page_title') }}</a>
-                    |
-                    <a href="{{ url('tos') }}">{{ __('pagetitles.tos.page_title') }}</a>
-                </div>
 
             </div>
         </div>

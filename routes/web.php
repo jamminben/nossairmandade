@@ -38,6 +38,7 @@ Route::get('/search', 'SearchController@advanced_livewire');
 Route::get('/faq', 'StaticPageController@faq');
 Route::get('/portuguese/for-beginners', 'StaticPageController@forBeginners');
 Route::get('/norms-and-rituals', 'StaticPageController@normsAndRituals');
+Route::get('/test', 'StaticPageController@test');
 
 Route::get('register-complete', 'StaticPageController@registerComplete');
 Route::get('password/reset-confirm', 'StaticPageController@registerComplete');

@@ -10,6 +10,7 @@ use App\Models\MusicianResource;
 use App\Services\GlobalFunctions;
 use App\Services\LinkService;
 use App\Services\ContactService;
+use App\Services\PatreonService;
 use Illuminate\Cookie\CookieJar;
 use Illuminate\Http\Request;
 use DateTime;
@@ -165,5 +166,11 @@ class StaticPageController extends Controller
     public function normsAndRituals()
     {
         return view ('norms_and_rituals');
+    }
+
+    public function test()
+    {
+        $patreonService = new PatreonService();
+        $patreonService->checkStatus('dingus');
     }
 }
