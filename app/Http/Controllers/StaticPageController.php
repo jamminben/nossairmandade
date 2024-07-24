@@ -115,11 +115,6 @@ class StaticPageController extends Controller
         return view('donate');
     }
 
-    public function subscribe()
-    {
-        return view('subscribe');
-    }
-
     public function privacy()
     {
         return view('privacy');
@@ -166,11 +161,5 @@ class StaticPageController extends Controller
     public function normsAndRituals()
     {
         return view ('norms_and_rituals');
-    }
-
-    public function test()
-    {
-        $patreonService = new PatreonService();
-        $patreonService->checkStatus('dingus');
     }
 }

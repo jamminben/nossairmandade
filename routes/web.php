@@ -30,7 +30,6 @@ Route::get('/musicians', 'StaticPageController@musicians');
 Route::get('/friends', 'StaticPageController@friends');
 Route::get('/links.php', 'StaticPageController@friends');
 Route::get('/donate', 'StaticPageController@donate');
-Route::get('/subscribe', 'StaticPageController@subscribe');
 Route::get('/privacy', 'StaticPageController@privacy');
 Route::get('/tos', 'StaticPageController@tos');
 Route::get('/search_old', 'SearchController@advanced');
@@ -38,7 +37,6 @@ Route::get('/search', 'SearchController@advanced_livewire');
 Route::get('/faq', 'StaticPageController@faq');
 Route::get('/portuguese/for-beginners', 'StaticPageController@forBeginners');
 Route::get('/norms-and-rituals', 'StaticPageController@normsAndRituals');
-Route::get('/test', 'StaticPageController@test');
 
 Route::get('register-complete', 'StaticPageController@registerComplete');
 Route::get('password/reset-confirm', 'StaticPageController@registerComplete');
