@@ -21,6 +21,8 @@ return [
     'links' => 'Friends',
     'contact' => 'Contact',
     'donate' => 'Donate',
+    'subscribe' => 'Subscribe',
+    'give' => 'Give',
     'whats-new' => 'What\'s New',
     'info' => 'Site Info',
     'faq' => 'FAQ',

@@ -6,24 +6,15 @@ use App\Models\Book;
 use App\Models\Carousel;
 use App\Models\LinkSection;
 use App\Models\MusicianMediaFile;
-use App\Models\MusicianResource;
 use App\Services\GlobalFunctions;
 use App\Services\LinkService;
 use App\Services\ContactService;
-use Illuminate\Cookie\CookieJar;
 use Illuminate\Http\Request;
-use DateTime;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cookie;
-use Spatie\Permission\Models\Role;
-use App\Models\User;
 
 class StaticPageController extends Controller
 {
     private $contactService;
     private $linkService;
-    private $vocabularyService;
 
     public function __construct(ContactService $contactService, LinkService $linkService)
     {
@@ -84,12 +75,7 @@ class StaticPageController extends Controller
 
         return view('books', [ 'books' => $books ]);
     }
-/*
-    public function vocabulary($letter = null)
-    {
-        return view('vocabulary');
-    }
-*/
+
     public function pronunciation()
     {
         return view('pronunciation');
@@ -112,6 +98,16 @@ class StaticPageController extends Controller
     public function donate()
     {
         return view('donate');
+    }
+
+    public function privacy()
+    {
+        return view('privacy');
+    }
+
+    public function tos()
+    {
+        return view('tos');
     }
 
     public function language($languageCode)

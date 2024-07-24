@@ -62,7 +62,8 @@ return [
 
     'individuals' => [
         'right_column' => [
-            'header' => 'Individuals'
+            'header' => 'Individuals',
+            'compilations' => 'Compilations',
         ],
         'jump' => 'Jump to list of people',
     ],

@@ -54,7 +54,8 @@ return [
 
     'individuals' => [
         'right_column' => [
-            'header' => 'Indivíduos'
+            'header' => 'Indivíduos',
+            'compilations' => 'Compilações',
         ],
         'jump' => 'Ir para a lista de indivíduos',
     ],

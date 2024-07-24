@@ -59,11 +59,18 @@
                 </li>
             </ul>
         </li>
-        <li>
-            <a href="{{ url('contact') }}">{{ __('nav.contact') }}</a>
+        <li> <a href="{{ url('/subscribe') }}">{{ __('nav.give') }}</a>
+            <ul>
+                <li>
+                    <a href="{{ url('donate') }}">{{ __('nav.donate') }}</a>
+                </li>
+                <li>
+                    <a href="{{ url('subscribe') }}">{{ __('nav.subscribe') }}</a>
+                </li>
+            </ul>
         </li>
         <li>
-            <a href="{{ url('donate') }}">{{ __('nav.donate') }}</a>
+            <a href="{{ url('contact') }}">{{ __('nav.contact') }}</a>
         </li>
     </ul>
 </nav>

@@ -62,7 +62,101 @@
                 </li>
                 <br>
             @endforeach
+                <li>
+                    <div class="row">
+
+                        <div class="col-md-5"></div>
+                        <div class="col-md-7">
+                            <div class="entry-meta no-avatar ns content-justify">
+                                <div class="inline-content big-spacing small-text bigbig darklinks">
+                            <span>
+                                <a>{{ __('hinarios.individuals.right_column.compilations') }}</a>
+                            </span>
+                                </div>
+                            </div>
+
+                            <div class="item-content small-padding padding-top-20 nossa-indent">
+                                <ul class="list1 no-top-border no-bottom-border">
+                                    <li>
+                                        <h4 class="entry-title">
+
+                                            <a name="compilations-oracao" href="{{ url('hinario/1/Oração') }}">
+                                                <span class="nossa-blue">
+                                                    Oração
+                                                </span>
+                                            </a>
+                                        </h4>
+                                    </li>
+                                    <li>
+                                        <h4 class="entry-title">
+                                            <a name="compilations-concentracao" href="{{ url('hinario/5/Concentração') }}">
+                                                <span class="nossa-blue">
+                                                    Concentração
+                                                </span>
+                                            </a>
+                                        </h4>
+                                    </li>
+                                    <li>
+                                        <h4 class="entry-title">
+                                            <a name="compilations-cura1" href="{{ url('hinario/2/CuraI') }}">
+                                                <span class="nossa-blue">
+                                                    Cura 1
+                                                </span>
+                                            </a>
+                                        </h4>
+                                    </li>
+                                    <li>
+                                        <h4 class="entry-title">
+                                            <a name="compilations-cura2" href="{{ url('hinario/3/Cura2') }}">
+                                                <span class="nossa-blue">
+                                                    Cura 2
+                                                </span>
+                                            </a>
+                                        </h4>
+                                    </li>
+                                    <li>
+                                        <h4 class="entry-title">
+                                            <a name="compilations-cruzeirinho" href="{{ url('hinario/6/Cruzeirinho') }}">
+                                                <span class="nossa-blue">
+                                                    Cruzeirinho
+                                                </span>
+                                            </a>
+                                        </h4>
+                                    </li>
+                                    <li>
+                                        <h4 class="entry-title">
+                                            <a name="compilations-chamados" href="{{ url('hinario/89/CahamdosDoSãoMiguel') }}">
+                                                <span class="nossa-blue">
+                                                    Chamados do Saão Miguel
+                                                </span>
+                                            </a>
+                                        </h4>
+                                    </li>
+                                    <li>
+                                        <h4 class="entry-title">
+                                            <a name="compilations-preces" href="{{ url('hinario/61/Preces') }}">
+                                                <span class="nossa-blue">
+                                                    Oração
+                                                </span>
+                                            </a>
+                                        </h4>
+                                    </li>
+                                    <li>
+                                        <h4 class="entry-title">
+                                            <a name="compilations-despacho" href="{{ url('hinario/4/HinosDoDespacho') }}">
+                                                <span class="nossa-blue">
+                                                    Hinos do Despacho
+                                                </span>
+                                            </a>
+                                        </h4>
+                                    </li>
+                                </ul>
+                        </div>
+                    </div>
+                </li>
+
         </ul>
+
     </div>
 
     <!--eof .col-sm-8 (main content)-->
@@ -77,6 +171,18 @@
                     @foreach ($tableOfContents as $person)
                         <li><a href="#{{ $person->id }}">{{ $person->display_name }}</a></li>
                     @endforeach
+                </ul>
+
+                <h5>{{ __('hinarios.individuals.right_column.compilations') }}</h5>
+                <ul class="list1 no-bullets">
+                    <li><a href="#compilations-oracao">Oração</a></li>
+                    <li><a href="#compilations-concentration">Concentração</a></li>
+                    <li><a href="#compilations-cura1">Cura 1</a></li>
+                    <li><a href="#compilations-cura2">Cura 2</a></li>
+                    <li><a href="#compilations-cruzeirinho">Cruzeirinho</a></li>
+                    <li><a href="#compilations-chamados">Chamados de São Miguel</a></li>
+                    <li><a href="#compilations-preces">Preces</a></li>
+                    <li><a href="#compilations-hinos do Despacho">Hinos do Despacho</a></li>
                 </ul>
             </div>
         </div>

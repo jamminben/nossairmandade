@@ -90,6 +90,21 @@ return [
         'page_title' => 'Doar ao nossairmandade.com',
     ],
 
+    'subscribe' => [
+        'header_title' => 'Subscrever',
+        'page_title' => 'Torne-se membro da nossairmandade.com',
+    ],
+
+    'privacy' => [
+        'header_title' => 'Privacidade',
+        'page_title' => 'Política de Privacidade',
+    ],
+
+    'tos' => [
+        'header_title' => 'Termos de Serviço',
+        'page_title' => 'Termos de serviço',
+    ],
+
     'auth' => [
         'register' => [
             'header_title' => 'Registrar',

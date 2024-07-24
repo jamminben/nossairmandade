@@ -30,6 +30,8 @@ Route::get('/musicians', 'StaticPageController@musicians');
 Route::get('/friends', 'StaticPageController@friends');
 Route::get('/links.php', 'StaticPageController@friends');
 Route::get('/donate', 'StaticPageController@donate');
+Route::get('/privacy', 'StaticPageController@privacy');
+Route::get('/tos', 'StaticPageController@tos');
 Route::get('/search_old', 'SearchController@advanced');
 Route::get('/search', 'SearchController@advanced_livewire');
 Route::get('/faq', 'StaticPageController@faq');
