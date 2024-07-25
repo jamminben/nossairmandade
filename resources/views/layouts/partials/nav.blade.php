@@ -64,9 +64,9 @@
                 <li>
                     <a href="{{ url('donate') }}">{{ __('nav.donate') }}</a>
                 </li>
-                <li>
+<!--                <li>
                     <a href="{{ url('subscribe') }}">{{ __('nav.subscribe') }}</a>
-                </li>
+                </li> -->
             </ul>
         </li>
         <li>
