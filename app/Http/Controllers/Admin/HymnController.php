@@ -469,7 +469,7 @@ class HymnController extends Controller
         // received_by
         if (is_null($hymn->receivedBy) ||
             ($requestParams['received_by'] != '' && $requestParams['received_by'] != $hymn->receivedBy->display_name)) {
-            if (!is_null($hymn->receivedBy)) {
+            if (!empty($hymn->receivedBy)) {
                 $oldVersion['hymn']['receivedBy'] = $hymn->receivedBy->display_name;
             }
             $newVersion['hymn']['receivedBy'] = $requestParams['received_by'];
@@ -479,7 +479,7 @@ class HymnController extends Controller
         // offered_to
         if (is_null($hymn->offeredTo) ||
             ($requestParams['offered_to'] != '' && $requestParams['offered_to'] != $hymn->offeredTo->display_name)) {
-            if (!is_null($hymn->offeredTo)) {
+            if (!empty($hymn->offeredTo)) {
                 $oldVersion['hymn']['offeredTo'] = $hymn->offered_to;
             }
             $newVersion['hymn']['offeredTo'] = $requestParams['offered_to'];
