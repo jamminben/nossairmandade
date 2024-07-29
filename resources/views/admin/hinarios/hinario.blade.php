@@ -95,7 +95,6 @@
                                 <span class="grey">{{ __('hinarios.edit_hinario.secondary_language') }}</span>
                             </label>
                             <select class="form-control" name="secondary_language_id" id="secondary_language_id">
-                                <option value="0"></option>
                                 @foreach($languages as $language)
                                     <option value="{{ $language->language_id }}"
                                             @if (count($hinario->getSecondaryTranslations()) > 0 &&
