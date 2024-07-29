@@ -12,6 +12,19 @@
         padding: 10px 15px 10px 15px;
     }
 
+    .source_tooltip-text {
+        visibility: hidden;
+        position: absolute;
+        z-index: 2;
+        width: 200px;
+        color: white;
+        font-size: 12px;
+        line-height: 1.5em;
+        background-color: #192733;
+        border-radius: 10px;
+        padding: 10px 15px 10px 15px;
+    }
+
     .tooltip-text::before {
         content: "";
         position: absolute;
@@ -21,7 +34,20 @@
         z-index: 1;
     }
 
+    .source_tooltip-text::before {
+        content: "";
+        position: absolute;
+        transform: rotate(45deg);
+        background-color: #192733;
+        padding: 10px;
+        z-index: 1;
+    }
+
     .add_media_tooltip:hover .tooltip-text {
+        visibility: visible;
+    }
+
+    .add_media_source_tooltip:hover .source_tooltip-text {
         visibility: visible;
     }
 
@@ -70,6 +96,12 @@
         display: inline-block;
         text-align: left;
     }
+
+    .add_media_source_tooltip {
+        position: relative;
+        display: inline-block;
+        text-align: left;
+    }
 </style>
 <h3 class="widget-title">{{ __('universal.add_media.add_media') }} <div class="add_media_tooltip"><i class="fas fa-question-circle"></i><span class="tooltip-text" id="right">{{ __('universal.add_media.add_media_tooltip_text') }}</span></div></h3>
 
@@ -77,7 +109,7 @@
     <div class="form-group">
         <label for="new_media" class="sr-only">{{ __('universal.add_media.add_media') }}</label>
         <input type="file" class="form-control " name="new_media" id="new_media" placeholder="{{ __('universal.add_media.choose_file') }}" value="">
-        <br>{{ __('universal.add_media.add_new_source_label') }}<br>
+        <br>{{ __('universal.add_media.add_new_source_label') }} <div class="add_media_source_tooltip"><i class="fas fa-question-circle"></i><span class="source_tooltip-text" id="right">{{ __('universal.add_media.add_media_source_tooltip_text') }}</span></div><br>
         <input type="text" name="new_source_description" placeholder="{{ __('universal.add_media.new_source_name') }}">
         <input type="text" name="new_source_url" placeholder="{{ __('universal.add_media.new_source_url') }}">
     </div>

@@ -38,6 +38,7 @@ return [
         'new_source_url' => 'Media Source URL',
         'add_new_source_label' => 'Media source:',
         'add_media_tooltip_text' => 'If you add a file with the extension .mp3 or .mpeg, it will be playable in the music player.  Any other file type will appear as a file but not be playable.',
+        'add_media_source_tooltip_text' => "The Media Source is the name of the place you got the recording (your name if you recorded it, unknown if you don't know where it came from, Youtube, etc.  The URL is optional - if you add it, it will create a link to the source (i.e. www.youtube.com, etc.) connected to the recording you are uploading.",
     ],
 
     'close' => 'Close'
