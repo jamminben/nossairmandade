@@ -39,6 +39,7 @@ return [
         'new_source_url' => 'URL da fonte',
         'add_new_source_label' => 'A fonte de mídia:',
         'add_media_tooltip_text' => 'Se você adicionar um arquivo com extensão .mp3 ou .mpeg, ele poderá ser reproduzido no reprodutor de música. Qualquer outro tipo de arquivo aparecerá como um arquivo, mas não poderá ser reproduzido.',
+        'add_media_source_tooltip_text' => "A fonte de mídia é o nome do local onde você obteve a gravação (seu nome se você a gravou, desconhecido se você não sabe de onde veio, Youtube, etc.). O URL é opcional - se você adicioná-lo, será criado um link para a fonte (por exemplo, www.youtube.com, etc.) conectado à gravação que você está enviando.",
     ],
 
     'close' => 'Fechar'
