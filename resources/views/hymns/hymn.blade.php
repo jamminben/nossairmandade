@@ -106,7 +106,7 @@
                         @foreach ($hymn->getSecondaryTranslations() as $translation)
                             <li @if ($loop->first) class="active" @endif>
                                 <a href="#tab-unstyled-{{ $loop->index }}" role="tab" data-toggle="tab">
-                                    @if (!empty($translation->language->getImageSlug()))
+                                    @if (!empty($translation->language) && !empty($translation->language->getImageSlug()))
                                         @include('layouts.partials.flag_image', [ 'language' => $translation->language ])
                                     @else
                                         {{ $translation->language->getField('name') }}

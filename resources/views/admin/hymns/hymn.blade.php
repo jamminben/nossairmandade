@@ -151,7 +151,6 @@
                             <span class="grey">{{ __('hymns.edit.secondary_language') }}</span>
                         </label>
                         <select class="form-control" name="secondary_language_id" id="secondary_language_id">
-                            <option value="0"></option>
                             @foreach($languages as $language)
                                 <option value="{{ $language->language_id }}"
                                         @if (count($hymn->getSecondaryTranslations()) > 0 &&
