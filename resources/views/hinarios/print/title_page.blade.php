@@ -78,7 +78,7 @@
     <div class="center">
         <img src="{{ url($hinario->image_path) }}" width="80%" max-height="80%">
     </div>
-@elseif (get_class($hinario) == \App\Models\Hinario::class && $hinario->type_id == 1)
+@elseif (get_class($hinario) == \App\Models\Hinario::class && $hinario->type_id == 1 && !empty($hinario->receivedBy))
     <div class="center">
         <img src="{{ url($hinario->receivedBy->getPortrait()) }}" width="80%" max-height="80%">
     </div>
