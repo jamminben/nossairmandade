@@ -64,6 +64,7 @@
         @endif
 
             @foreach ($hymnTranslations as $hymnTranslation)
+                @if (!empty($hymnTranslation->hymn))
                 <div class="row">
                     <div class="hymn-list-number">{{ $loop->iteration }}</div>
                     <div class="inline-block bottompadding_20">
@@ -78,6 +79,7 @@
                         </p>
                     </div>
                 </div>
+                @endif
             @endforeach
     </div>
 @endsection
