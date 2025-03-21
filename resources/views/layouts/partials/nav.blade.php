@@ -4,6 +4,9 @@
             <a href="{{ url('') }}">@lang('nav.home')</a>
         </li>
         <li>
+            <a href="https://nossairmandade.threadless.com" target="_blank" style="color: #e65f32;">@lang('nav.store')</a>
+        </li>
+        <li>
             <a>{{ __('nav.hinarios') }}</a>
             <ul>
                 <li>

@@ -26,4 +26,5 @@ return [
     'whats-new' => 'What\'s New',
     'info' => 'Site Info',
     'faq' => 'FAQ',
+    'store' => 'Store<br>(New!)',
 ];
