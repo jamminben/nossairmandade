@@ -25,4 +25,5 @@ return [
     'whats-new' => 'O Que Há De Novo',
     'info' => 'Info do Site',
     'faq' => 'Perguntas Frequentes',
+    'store' => 'Loja<br>(Nova!)',
 ];
