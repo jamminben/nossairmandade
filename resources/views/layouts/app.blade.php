@@ -19,15 +19,17 @@
     <!--[if lt IE 9]>
     <div class="bg-danger text-center">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/" class="highlight">upgrade your browser</a> to improve your experience.</div>
     <![endif]-->
-
     <div class="preloader">
         <div class="preloader_image"></div>
     </div>
-
     <!-- wrappers for visual page editor and boxed version of template -->
     <div id="canvas" class="boxed ni_bg">
         <div id="box_wrapper" class="container top-bottom-margins">
-
+            <div id="top-banner-ad">
+                <a href="https://nossairmandade.threadless.com/" target="_blank" rel="noopener">
+                    <img src="/images/ads/merch_banner.png" alt="Merch Banner" style="height:90px; width:auto; display:block; margin:0 auto;">
+                </a>
+            </div>
             <header class="page_header header_white toggler_right">
                 @include('layouts.partials.page_top')
                 @include('layouts.partials.header')

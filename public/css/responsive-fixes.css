@@ -1,0 +1,54 @@
+/* Responsive fixes for mobile layout */
+@media (max-width: 767px) {
+    /* Reduce container padding on mobile */
+    .container,
+    #box_wrapper.container,
+    .boxed .container {
+        padding-left: 5px !important;
+        padding-right: 5px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+    .container *,
+    #box_wrapper.container *,
+    .boxed .container * {
+        box-sizing: border-box !important;
+    }
+
+    /* Adjust column padding for mobile */
+    .columns_padding_30 [class*="col-"],
+    [class*="col-"] {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+
+    /* Remove extra margins on mobile */
+    .row {
+        margin-left: -10px !important;
+        margin-right: -10px !important;
+    }
+
+    /* Ensure box wrapper doesn't overflow */
+    #box_wrapper.container {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        overflow: hidden;
+    }
+
+    /* Adjust section padding */
+    .section_padding_bottom_130 {
+        padding-bottom: 65px;
+    }
+
+    /* Remove extra margins on mobile */
+    .top-bottom-margins {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    /* Force container width */
+    .container {
+        min-width: 0 !important;
+    }
+} 
