@@ -9,8 +9,8 @@
 <link rel="stylesheet" href="/css/bootstrap.min.css">
 <link rel="stylesheet" href="/css/animations.css">
 <link rel="stylesheet" href="/css/fonts.css">
-<link rel="stylesheet" href="/css/main09.css" class="color-switcher-link">
-<link rel="stylesheet" href="/css/nossa.css" class="color-switcher-link">
+<link rel="stylesheet" href="/css/main09.css?v=ad" class="color-switcher-link">
+<link rel="stylesheet" href="/css/nossa.css?v=ad" class="color-switcher-link">
 @yield('extra_styles')
 
 <!-- <link rel="stylesheet" href="/css/shop.css" class="color-switcher-link"> -->
@@ -72,3 +72,37 @@
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
     })();
 </script>
+
+<style>
+#top-banner-ad {
+    width: 100%;
+    height: 100px;
+    padding: 5px 0;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    z-index: 1000;
+    position: relative;
+}
+#top-banner-ad img {
+    height: 90px;
+    width: auto;
+    display: block;
+    margin: 0 auto;
+}
+@media (max-width: 767px) {
+  #top-banner-ad {
+    height: auto;
+    min-height: 0;
+    padding: 5px 0;
+  }
+  #top-banner-ad img {
+    max-height: 90px;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+}
+</style>
