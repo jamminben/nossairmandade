@@ -9,8 +9,8 @@
 <link rel="stylesheet" href="/css/bootstrap.min.css">
 <link rel="stylesheet" href="/css/animations.css">
 <link rel="stylesheet" href="/css/fonts.css">
-<link rel="stylesheet" href="/css/main09.css" class="color-switcher-link">
-<link rel="stylesheet" href="/css/nossa.css" class="color-switcher-link">
+<link rel="stylesheet" href="/css/main09.css?v=ad" class="color-switcher-link">
+<link rel="stylesheet" href="/css/nossa.css?v=ad" class="color-switcher-link">
 @yield('extra_styles')
 
 <!-- <link rel="stylesheet" href="/css/shop.css" class="color-switcher-link"> -->
